@@ -35,11 +35,11 @@ Following any of these methods makes the scripts be loaded automatically without
 - Go to `%localappdata%\Plutonium\storage\t6` by pressing Win+R then pasting the mentioned path then press OK, and open the `scripts\zm` directory. Create the `scripts\zm` directory if it does not exist.
 - Open the `zm_any_player_ee` folder then the `zm_any_player_ee.iwd` file from inside of it, and extract the `scripts` folder.
 - Find the files from the extracted `scripts` folder and place them into their respective map's folder. If the map's folder does not exist, create it and place it into the directory `%localappdata%\Plutonium\storage\t6\scripts\zm`.
-    - TranZit's scripts go to `scripts\zm\zm_transit`
-    - Die Rise's scripts go to `scripts\zm\zm_highrise`
-    - Buried's scripts go to `scripts\zm\zm_buried`
-    - `super_any_player_ee.gsc` goes to `scripts\zm\zm_buried`
-    - Origins' scripts go to `scripts\zm\zm_tomb`
+  - TranZit's scripts go to `scripts\zm\zm_transit`
+  - Die Rise's scripts go to `scripts\zm\zm_highrise`
+  - Buried's scripts go to `scripts\zm\zm_buried`
+  - `super_any_player_ee.gsc` goes to `scripts\zm\zm_buried`
+  - Origins' scripts go to `scripts\zm\zm_tomb`
 
 ## Features
 ### TranZit
@@ -96,6 +96,22 @@ For more than 4 players, the mod will only use the player progress that is shown
 ### Origins
 Spawns stone tablets near the challenge boxes for players to grab the One Inch Punch from. This allows for matches of 5+ players to be able to obtain the One Inch Punch to complete *Step 6: Wield a Fist of Iron* of the Easter Egg.
 
+## Alternative Mods With Extra Features + Other Maps
+- TranZit Extra: makes the EMP step on the Richtofen quest on solo only require 2 EMPs instead of 4.  
+[tranzit_extra_richtofen_solo.gsc](https://github.com/Hadi77KSA/Plutonium-T6-Any-Player-EE-Extra-Scripts/releases/latest/download/tranzit_extra_richtofen_solo.gsc)
+- Die Rise Extra: on the Trample Steam step on the Maxis side while there are less than 4 players, gives the players the ability to pick up extra Trample Steams, and the zombies will ignore the Trample Steams placed during the step.  
+[die_rise_extra_springpads_maxis.gsc](https://github.com/Hadi77KSA/Plutonium-T6-Any-Player-EE-Extra-Scripts/releases/latest/download/die_rise_extra_springpads_maxis.gsc)
+- Mob of the Dead: cleaned-up version of [teh_bandit's mod](https://forum.plutonium.pw/post/66551). This mod functions the same way as his mod, where a bot is spawned in once all mobsters' numbers are entered into the number pad on solo.  
+[motd_solo.gsc](https://github.com/Hadi77KSA/teh-bandit-Plutonium-T6ZM-Solo-Mods/releases/latest/download/motd_solo.gsc)  
+To install, follow the steps in the **Individual Files** alternative installation method. The script goes to `scripts\zm\zm_prison`
+- Buried Extra: different versions have been provided containing the following features:-
+  - Richtofen maze levers step notifies the players whether each lever has sparked or not.  
+[buried_extra_richtofen_maze_lever_sparks.gsc](https://github.com/Hadi77KSA/Plutonium-T6-Any-Player-EE-Extra-Scripts/releases/latest/download/buried_extra_richtofen_maze_lever_sparks.gsc)
+  - Maxis bells step auto-completes once started on solo.  
+[buried_extra_maxis_solo_bells.gsc](https://github.com/Hadi77KSA/Plutonium-T6-Any-Player-EE-Extra-Scripts/releases/latest/download/buried_extra_maxis_solo_bells.gsc)
+  - On the sharpshooter step on 3p, the players can choose the minimum number of targets to either be 61–65 or all targets on every attempt; where choosing the minimum to be 61–65 targets is done by shooting less than or exactly 65 targets, and choosing the minimum to be all targets is done by shooting more than 65 targets.  
+[buried_extra_sharpshooter_3p.gsc](https://github.com/Hadi77KSA/Plutonium-T6-Any-Player-EE-Extra-Scripts/releases/latest/download/buried_extra_sharpshooter_3p.gsc)
+
 ## FAQ
 ### - Q: Do I/we need all of these mods to do all the EEs?
 A: Depends on the number of players and which maps and side you choose. The host is required to have the mods installed. The following shows the required files:
@@ -119,6 +135,12 @@ A: Depends on the number of players and which maps and side you choose. The host
     - Super EE: `super_any_player_ee.gsc`
     - Origins: `origins_any_player_ee.gsc`
 
+### - Q: I am stuck on some Easter Egg step. Could you help?
+A: Generally, if you ask for help with any Easter Egg step, I will try to assist you. Do note that the scripts do not modify anything outside of what is mentioned. Refer to the **Features** section for the changes made by the scripts, otherwise you could check existing guides such as the ones from the [CoD Fandom Wiki](https://callofduty.fandom.com/wiki/Category:Call_of_Duty:_Black_Ops_II_Zombies_Main_Quests).
+
+### Q: How do I make sure the scripts are loaded?
+A: Most of my scripts come with a message in green/blue/yellow colours that appears when the player loads in indicating the scripts are loaded. Another method of checking is to get the host to execute the Plutonium [console](https://plutonium.pw/docs/opening-console/) commands `flashScriptHashes; scriptHashes`. If the scripts are loaded, they will appear in the list of scripts.
+
 ### - Q: On TranZit, should I worry that Maxis says the Turbine does not have enough power shortly after placing the Turbine under the tower?
 A: Likely a vanilla game issue, especially if the Turbine begins not emitting power. If the Turbine is emitting power, then you probably should not worry. Wait at least 6 seconds after placing the Turbine(s) before killing the Avogadro just to be safe.
 
@@ -130,7 +152,7 @@ A: Vanilla game problem. The player shooting the Ballistic Knife must not have a
 
 ## Credits
 - CCDeroga: [TranZit Maxis mod](https://forum.plutonium.pw/topic/15338/zm-release-solo-maxis-tranzit), [Buried Maxis mod](https://forum.plutonium.pw/topic/15604/release-zm-buried-maxis-solo-ee).
-- teh_bandit: Contributions mentioned in the credited people's scripts.
+- teh_bandit: TranZit Richtofen mod, [Mob of the Dead mod](https://forum.plutonium.pw/topic/16734/release-zombies-mob-of-the-dead-easter-egg-solo-improved), and other contributions mentioned in the credited people's scripts.
 - DaddyDontStop: [Die Rise Maxis mod](https://forum.plutonium.pw/topic/16736/release-zombies-die-rise-solo-ee-maxis), Buried Maxis mod.
 - shyperson0/znchi: [Die Rise Richtofen mod](https://forum.plutonium.pw/topic/14737/gsc-zm-solo-die-rise-richtofen).
 - Stick Gaming/Nathan3197: [Buried Richtofen mod](https://forum.plutonium.pw/topic/16021/release-zm-buried-easter-egg-quality-of-life-improvement).
