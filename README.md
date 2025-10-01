@@ -136,10 +136,14 @@ A: Depends on the number of players and which maps and side you choose. The host
     - Origins: `origins_any_player_ee.gsc`
 
 ### Q: I am stuck on some Easter Egg step. Could you help?
-A: Generally, if you ask for help with any Easter Egg step, I will try to assist you. Do note that the scripts do not modify anything outside of what is mentioned. Refer to the **Features** section for the changes made by the scripts, otherwise you could check existing guides such as the ones from the [CoD Fandom Wiki](https://callofduty.fandom.com/wiki/Category:Call_of_Duty:_Black_Ops_II_Zombies_Main_Quests).
+A: Generally, if you ask for help with any Easter Egg step, I will try to assist you. Note that the scripts do not modify anything outside of what is mentioned. Refer to the **Features** section for the changes made by the scripts, otherwise you could check existing guides such as the ones from the [CoD Fandom Wiki](https://callofduty.fandom.com/wiki/Category:Call_of_Duty:_Black_Ops_II_Zombies_Main_Quests).
 
 ### Q: How do I make sure the scripts are loaded?
-A: Most of my scripts come with a message in green/blue/yellow colours that appears when the player loads in indicating the scripts are loaded. Another method of checking is to get the host to execute the Plutonium [console](https://plutonium.pw/docs/opening-console/) commands `flashScriptHashes; scriptHashes`. If the scripts are loaded, they will appear in the list of scripts.
+A: Most of my scripts come with a message in green/blue/yellow colours that appears when the player loads in indicating the scripts are loaded. Another method of checking is to get the host to execute the Plutonium [console](https://plutonium.pw/docs/opening-console/) commands:
+```
+flashScriptHashes; scriptHashes
+```
+If the scripts are loaded, they will appear in the list of scripts.
 
 ### Q: On TranZit, should I worry that Maxis says the Turbine does not have enough power shortly after placing the Turbine under the tower?
 A: Likely a vanilla game issue, especially if the Turbine begins not emitting power. If the Turbine is emitting power, then you probably should not worry. Wait at least 6 seconds after placing the Turbine(s) before killing the Avogadro just to be safe.
