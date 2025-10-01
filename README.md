@@ -113,7 +113,7 @@ To install, follow the steps in the **Individual Files** alternative installatio
 [buried_extra_sharpshooter_3p.gsc](https://github.com/Hadi77KSA/Plutonium-T6-Any-Player-EE-Extra-Scripts/releases/latest/download/buried_extra_sharpshooter_3p.gsc)
 
 ## FAQ
-### - Q: Do I/we need all of these mods to do all the EEs?
+### Q: Do I/we need all of these mods to do all the EEs?
 A: Depends on the number of players and which maps and side you choose. The host is required to have the mods installed. The following shows the required files:
   - 1p:-
     - TranZit Maxis:
@@ -135,19 +135,19 @@ A: Depends on the number of players and which maps and side you choose. The host
     - Super EE: `super_any_player_ee.gsc`
     - Origins: `origins_any_player_ee.gsc`
 
-### - Q: I am stuck on some Easter Egg step. Could you help?
+### Q: I am stuck on some Easter Egg step. Could you help?
 A: Generally, if you ask for help with any Easter Egg step, I will try to assist you. Do note that the scripts do not modify anything outside of what is mentioned. Refer to the **Features** section for the changes made by the scripts, otherwise you could check existing guides such as the ones from the [CoD Fandom Wiki](https://callofduty.fandom.com/wiki/Category:Call_of_Duty:_Black_Ops_II_Zombies_Main_Quests).
 
 ### Q: How do I make sure the scripts are loaded?
 A: Most of my scripts come with a message in green/blue/yellow colours that appears when the player loads in indicating the scripts are loaded. Another method of checking is to get the host to execute the Plutonium [console](https://plutonium.pw/docs/opening-console/) commands `flashScriptHashes; scriptHashes`. If the scripts are loaded, they will appear in the list of scripts.
 
-### - Q: On TranZit, should I worry that Maxis says the Turbine does not have enough power shortly after placing the Turbine under the tower?
+### Q: On TranZit, should I worry that Maxis says the Turbine does not have enough power shortly after placing the Turbine under the tower?
 A: Likely a vanilla game issue, especially if the Turbine begins not emitting power. If the Turbine is emitting power, then you probably should not worry. Wait at least 6 seconds after placing the Turbine(s) before killing the Avogadro just to be safe.
 
-### - Q: On Die Rise, why is the elevator step not completing even though we are standing on enough elevator symbols?
+### Q: On Die Rise, why is the elevator step not completing even though we are standing on enough elevator symbols?
 A: Vanilla game problem. You need to make sure the Nav Table is fully built.
 
-### - Q: On Die Rise, why is the Ballistic Knife step not completing even though Maxis said his quote about reincarnation, and the Ballistic Knife is upgraded and is shot into the Buddha room?
+### Q: On Die Rise, why is the Ballistic Knife step not completing even though Maxis said his quote about reincarnation, and the Ballistic Knife is upgraded and is shot into the Buddha room?
 A: Vanilla game problem. The player shooting the Ballistic Knife must not have a melee weapon (Bowie Knife, Galvaknuckles) nor have bled out, which includes falling off the map and getting crushed with the exception of doing so while having Who's Who or solo Quick Revive. To fix this, either get another player—who does not have a melee weapon nor has bled out—to do the step, or if the player has a melee weapon but has not bled out, make them get rid of the melee weapon by downing while having Who's Who and letting their original self disappear.
 
 ## Credits
