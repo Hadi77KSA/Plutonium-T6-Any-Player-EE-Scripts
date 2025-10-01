@@ -1,5 +1,6 @@
 # Plutonium-T6-Any-Player-EE-Scripts
 The following scripts allow the main Easter Egg quests to be done with any number of players—whether it is solo (1 player), duo (2 players), trio (3 players), or even more than 4 players—while aiming to be as similar to the original Easter Eggs as possible.
+
 ## Installation
 1. [Download the latest release](https://github.com/Hadi77KSA/Plutonium-T6-Any-Player-EE-Scripts/releases/latest/download/release.zip).
 2. Extract the `zm_any_player_ee` folder from the ZIP file that was downloaded.
@@ -8,41 +9,38 @@ The following scripts allow the main Easter Egg quests to be done with any numbe
 ![run window](https://github.com/user-attachments/assets/edbc54f8-f3b6-4e8e-b0bd-4b9635776aa1)
 
 4. Move the `zm_any_player_ee` folder to inside the `mods` folder.
-
-![mods folder](https://github.com/user-attachments/assets/6b4f78fe-6a0b-4e05-8881-d57988d86a37)
-
 5. Start the game and load the mod through the in-game `Mods` menu.
 
 ![mods menu](https://github.com/user-attachments/assets/a282836f-940d-4420-bd2d-3d8219c0fc62)
 
 #### Patches
-Can be found in `zm_any_player_ee\scripts\zm\Patches`
+Can be found in `zm_any_player_ee.iwd\scripts\zm\Patches`
 * `die_rise_extra_no_reset_floor_puzzle.gsc` can be used along with `die_rise_any_player_ee.gsc`  
 The file goes in `scripts\zm\zm_highrise`  
 This patch makes the floor symbols not reset once an incorrect symbol is stepped on.
-* ~~`buried_body_fix.gsc` can be used along with `buried_any_player_ee.gsc`  
-The file goes in `scripts\zm\zm_buried`  
-This patch makes the bodies on the round infinity step on the Richtofen side have the switch on the first 3 bodies searched.~~ **Update:** ZWR has prohibited the use of the body fix patch, thus it will no longer be provided/maintained. 
 * `nav_autocomplete.gsc` to go in `scripts\zm`  
 This patch builds the Nav Tables and applies the Navcards to all maps for all players.
 
 ### Alternative Installation Methods
 Following any of these methods makes the scripts be loaded automatically without needing to select the mod from the in-game `Mods` menu.
+
 #### Complete Scripts Folder
 - Follow steps 1 & 2 from the main installation instructions.
 - Go to `%localappdata%\Plutonium\storage\t6` by pressing Win+R then pasting the mentioned path then press OK.
-- Open the `zm_any_player_ee` folder and copy the `scripts` folder from inside of it.
-- Paste the `scripts` folder into the `t6` folder.
+- Open the `zm_any_player_ee` folder and copy the `zm_any_player_ee.iwd` file from inside of it.
+- Paste the `zm_any_player_ee.iwd` file into the `t6` folder.
 
 #### Individual Files
-1. Navigate to the [Releases](https://github.com/Hadi77KSA/Plutonium-T6-Any-Player-EE-Scripts/releases/latest) page and download the script you desire.
-2. Navigate to `%localappdata%\Plutonium\storage\t6\scripts\zm`
-3. Place the files into their respective map's folder. If the map's folder does not exist, create it and place it into the path from step 2.
-- TranZit's scripts go to `scripts\zm\zm_transit`
-- Die Rise's scripts go to `scripts\zm\zm_highrise`
-- Buried's scripts go to `scripts\zm\zm_buried`
-- `super_any_player_ee.gsc` goes to `scripts\zm\zm_buried`
-- Origins' scripts go to `scripts\zm\zm_tomb`
+- Follow steps 1 & 2 from the main installation instructions.
+- Go to `%localappdata%\Plutonium\storage\t6` by pressing Win+R then pasting the mentioned path then press OK, and open the `scripts\zm` directory. Create the `scripts\zm` directory if it does not exist.
+- Open the `zm_any_player_ee` folder then the `zm_any_player_ee.iwd` file from inside of it, and extract the `scripts` folder.
+- Find the files from the extracted `scripts` folder and place them into their respective map's folder. If the map's folder does not exist, create it and place it into the directory `%localappdata%\Plutonium\storage\t6\scripts\zm`.
+    - TranZit's scripts go to `scripts\zm\zm_transit`
+    - Die Rise's scripts go to `scripts\zm\zm_highrise`
+    - Buried's scripts go to `scripts\zm\zm_buried`
+    - `super_any_player_ee.gsc` goes to `scripts\zm\zm_buried`
+    - Origins' scripts go to `scripts\zm\zm_tomb`
+
 ## Features
 ### TranZit
 #### - Tower Step and Lamp Post Step for the Maxis Side
