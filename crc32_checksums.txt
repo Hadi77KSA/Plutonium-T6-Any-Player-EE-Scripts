@@ -36,7 +36,8 @@ zm_any_player_ee\scripts\zm\Patches\die_rise_any_player_ee-no_reset.gsc
 - 0xA3DABB4E (1.1.1)
 
 zm_any_player_ee\scripts\zm\Patches\nav_autocomplete.gsc
-- 0xAFF0D341 (1.5.1–current)
+- 0x9D0167D6 (current)
+- 0xAFF0D341 (1.5.1–1.6.0)
 - 0x9BAD3DC9 (1.4.3–1.5.0)
 - 0xF1765824
 - 0x0BB2483E

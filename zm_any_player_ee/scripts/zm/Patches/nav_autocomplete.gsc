@@ -1,6 +1,6 @@
 init()
 {
-	switch ( getdvar( "mapname" ) )
+	switch ( getdvar( #"mapname" ) )
 	{
 		case "zm_transit":
 		case "zm_highrise":
