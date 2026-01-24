@@ -2,15 +2,13 @@
 #include maps\mp\_utility;
 #include maps\mp\zm_buried_sq;
 
-main()
-{
-	replaceFunc( maps\mp\zm_buried_sq::sq_metagame, ::sq_metagame );
-}
-
 init()
 {
 	if ( maps\mp\zombies\_zm_sidequests::is_sidequest_allowed( "zclassic" ) )
+	{
 		thread onPlayerConnect();
+		thread logic_func();
+	}
 }
 
 onPlayerConnect()
@@ -29,6 +27,19 @@ msg()
 	self iPrintLn( "^2Any Player EE Mod ^5Super" );
 }
 
+logic_func()
+{
+	for (;;)
+	{
+		if ( get_players().size != 4 )
+		{
+			thread sq_metagame();
+		}
+
+		level waittill( "sq_metagame_player_connected" );
+	}
+}
+
 sq_metagame()
 {
 	level endon( "sq_metagame_player_connected" );
@@ -37,23 +48,9 @@ sq_metagame()
 	if ( flag( "sq_started" ) )
 		level waittill( "buried_sidequest_achieved" );
 
-	level thread sq_metagame_turn_off_watcher();
 	is_blue_on = 0;
 	is_orange_on = 0;
 	m_endgame_machine = getstruct( "sq_endgame_machine", "targetname" );
-	a_tags = [];
-	a_tags[0][0] = "TAG_LIGHT_1";
-	a_tags[0][1] = "TAG_LIGHT_2";
-	a_tags[0][2] = "TAG_LIGHT_3";
-	a_tags[1][0] = "TAG_LIGHT_4";
-	a_tags[1][1] = "TAG_LIGHT_5";
-	a_tags[1][2] = "TAG_LIGHT_6";
-	a_tags[2][0] = "TAG_LIGHT_7";
-	a_tags[2][1] = "TAG_LIGHT_8";
-	a_tags[2][2] = "TAG_LIGHT_9";
-	a_tags[3][0] = "TAG_LIGHT_10";
-	a_tags[3][1] = "TAG_LIGHT_11";
-	a_tags[3][2] = "TAG_LIGHT_12";
 	a_stat = [];
 	a_stat[0] = "sq_transit_last_completed";
 	a_stat[1] = "sq_highrise_last_completed";
@@ -62,27 +59,18 @@ sq_metagame()
 	a_stat_nav[0] = "navcard_applied_zm_transit";
 	a_stat_nav[1] = "navcard_applied_zm_highrise";
 	a_stat_nav[2] = "navcard_applied_zm_buried";
-	a_stat_nav_held = [];
-	a_stat_nav_held[0] = "navcard_applied_zm_transit";
-	a_stat_nav_held[1] = "navcard_applied_zm_highrise";
-	a_stat_nav_held[2] = "navcard_applied_zm_buried";
 	bulb_on = [];
 	bulb_on[0] = 0;
 	bulb_on[1] = 0;
 	bulb_on[2] = 0;
-	level.n_metagame_machine_lights_on = 0;
 	flag_wait( "start_zombie_round_logic" );
-	sq_metagame_clear_lights();
 	players = get_players();
 	player_count = players.size;
 
 	if ( player_count > 4 ) //in case of more than 4 players, only checks the progress of 4 players
+	{
 		player_count = 4;
-
-/#
-	if ( getdvarint( #"zombie_cheat" ) >= 1 )
-		player_count = 4;
-#/
+	}
 
 	for ( n_player = 0; n_player < player_count; n_player++ )
 	{
@@ -94,28 +82,17 @@ sq_metagame()
 				n_stat_nav_value = players[n_player] maps\mp\zombies\_zm_stats::get_global_stat( a_stat_nav[n_stat] );
 			}
 
-/#
-			if ( getdvarint( #"zombie_cheat" ) >= 1 )
-			{
-				n_stat_value = getdvarint( #"zombie_cheat" );
-				n_stat_nav_value = getdvarint( #"zombie_cheat" );
-			}
-#/
-
 			if ( n_stat_value == 1 )
 			{
-				m_endgame_machine sq_metagame_machine_set_light( n_player, n_stat, "sq_bulb_blue" );
 				is_blue_on = 1;
 			}
 			else if ( n_stat_value == 2 )
 			{
-				m_endgame_machine sq_metagame_machine_set_light( n_player, n_stat, "sq_bulb_orange" );
 				is_orange_on = 1;
 			}
 
 			if ( n_stat_nav_value )
 			{
-				level setclientfield( "buried_sq_egm_bulb_" + n_stat, 1 );
 				bulb_on[n_stat] = 1;
 			}
 		}
@@ -153,7 +130,6 @@ sq_metagame()
 		for ( i = 0; i < a_stat.size; i++ )
 		{
 			player maps\mp\zombies\_zm_stats::set_global_stat( a_stat[i], 0 );
-			player maps\mp\zombies\_zm_stats::set_global_stat( a_stat_nav_held[i], 0 );
 			player maps\mp\zombies\_zm_stats::set_global_stat( a_stat_nav[i], 0 );
 		}
 	}

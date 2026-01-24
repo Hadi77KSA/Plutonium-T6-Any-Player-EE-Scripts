@@ -1,17 +1,12 @@
 #include common_scripts\utility;
-#include maps\mp\_utility;
-#include maps\mp\zm_transit_sq;
-
-main()
-{
-	replaceFunc( maps\mp\zm_transit_sq::maxis_sidequest_b, ::maxis_sidequest_b );
-	replaceFunc( maps\mp\zm_transit_sq::get_how_many_progressed_from, ::get_how_many_progressed_from );
-}
 
 init()
 {
 	if ( maps\mp\zombies\_zm_sidequests::is_sidequest_allowed( "zclassic" ) )
+	{
 		thread onPlayerConnect();
+		thread sidequest_main();
+	}
 }
 
 onPlayerConnect()
@@ -30,41 +25,97 @@ msg()
 	self iPrintLn( "^2Any Player EE Mod ^5TranZit Maxis" );
 }
 
-maxis_sidequest_b()
+sidequest_main()
+{
+	flag_wait( "start_zombie_round_logic" );
+	waittillframeend;
+
+	if ( level.richcompleted && level.maxcompleted )
+	{
+		return;
+	}
+
+	for (;;)
+	{
+		thread maxis_sidequest();
+		flag_wait( "power_on" );
+		flag_waitopen( "power_on" );
+	}
+}
+
+maxis_sidequest()
+{
+	if ( flag( "power_on" ) || level.maxcompleted )
+	{
+		return;
+	}
+
+	thread maxis_sidequest_a();
+	thread maxis_sidequest_c();
+}
+
+maxis_sidequest_a()
 {
 	level endon( "power_on" );
+	level endon( "end_avogadro_turbines" );
 
-	while ( true )
+	for (;;)
 	{
-		level waittill( "stun_avogadro", avogadro );
+		level waittill( "turbine_deployed" );
 
-		if ( isdefined( level.sq_progress["maxis"]["A_turbine_1"] ) && is_true( level.sq_progress["maxis"]["A_turbine_1"].powered ) && ( ( isdefined( level.sq_progress["maxis"]["A_turbine_2"] ) && is_true( level.sq_progress["maxis"]["A_turbine_2"].powered ) ) || getPlayers().size == 1 ) )
+		if ( level.players.size == 1 )
 		{
-			if ( isdefined( avogadro ) && avogadro istouching( level.sq_volume ) )
+			waittillframeend;
+			level notify( "turbine_deployed" );
+		}
+	}
+}
+
+maxis_sidequest_c()
+{
+	flag_wait( "power_on" );
+	flag_waitopen( "power_on" );
+	level endon( "power_on" );
+	level endon( "transit_sidequest_achieved" );
+	screech_zones = getstructarray( "screecher_escape", "targetname" );
+
+	for (;;)
+	{
+		level waittill_any( "turbine_deployed", "connected" );
+		waittillframeend;
+
+		if ( level.players.size == 1 )
+		{
+			if ( isdefined( level.players[0].buildableturbine ) )
 			{
-				level notify( "end_avogadro_turbines" );
-				break;
+				foreach ( zone in screech_zones )
+				{
+					if ( distancesquared( level.players[0].buildableturbine.origin, zone.origin ) < zone.radius * zone.radius )
+					{
+						if ( !isdefined( level.sq_progress["maxis"]["C_turbine_1"] ) )
+						{
+							level.sq_progress["maxis"]["C_turbine_1"] = 1;
+						}
+						else
+						{
+							level.sq_progress["maxis"]["C_turbine_2"] = 1;
+						}
+
+						level notify( "turbine_deployed" );
+					}
+				}
+			}
+		}
+		else
+		{
+			if ( isdefined( level.sq_progress["maxis"]["C_turbine_1"] ) && !isdefined( level.sq_progress["maxis"]["C_turbine_1"].turbine_watch_cleanup ) )
+			{
+				level.sq_progress["maxis"]["C_turbine_1"] = undefined;
+			}
+			else if ( isdefined( level.sq_progress["maxis"]["C_turbine_2"] ) && !isdefined( level.sq_progress["maxis"]["C_turbine_2"].turbine_watch_cleanup ) )
+			{
+				level.sq_progress["maxis"]["C_turbine_2"] = undefined;
 			}
 		}
 	}
-
-	level notify( "maxis_stage_b" );
-	level thread maxissay( "vox_maxi_avogadro_emp_0", ( 7737, -416, -142 ) );
-	update_sidequest_stats( "sq_transit_maxis_stage_3" );
-	player = get_players();
-	player[0] setclientfield( "sq_tower_sparks", 1 );
-	player[0] setclientfield( "screecher_maxis_lights", 1 );
-	level thread maxis_sidequest_complete_check( "B_complete" );
-}
-
-get_how_many_progressed_from( story, a, b )
-{
-	n_players = getPlayers().size;
-
-	if ( ( isdefined( level.sq_progress[story][a] ) && !isdefined( level.sq_progress[story][b] ) || !isdefined( level.sq_progress[story][a] ) && isdefined( level.sq_progress[story][b] ) ) && n_players > 1 )
-		return 1;
-	else if ( isdefined( level.sq_progress[story][a] ) && ( isdefined( level.sq_progress[story][b] ) || n_players == 1 ) )
-		return 2;
-
-	return 0;
 }
