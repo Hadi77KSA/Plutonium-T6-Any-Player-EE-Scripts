@@ -37,7 +37,7 @@ zm_any_player_ee\scripts\zm\Patches\die_rise_any_player_ee-no_reset.gsc
 
 zm_any_player_ee\scripts\zm\Patches\nav_autocomplete.gsc
 - 0x9D0167D6 (current)
-- 0xAFF0D341 (1.5.1–1.6.0)
+- 0xAFF0D341 (1.5.1–v1.6.0)
 - 0x9BAD3DC9 (1.4.3–1.5.0)
 - 0xF1765824
 - 0x0BB2483E
@@ -49,7 +49,8 @@ zm_any_player_ee\scripts\zm\Patches\nav_autocomplete.gsc
 - 0xEEFA8398 (after 1.2.1)
 
 zm_any_player_ee\scripts\zm\zm_buried\buried_any_player_ee.gsc
-- 0xC732CE7C (1.5.1–current)
+- 0x8F27A5CA (current)
+- 0xC732CE7C (1.5.1–v1.6.0)
 - 0xD34F232B (1.4.4–1.5.0)
 - 0x83D47423
 - 0xA3A3B3F2 (1.4.3)
@@ -66,7 +67,7 @@ zm_any_player_ee\scripts\zm\zm_buried\buried_any_player_ee.gsc
 - 0xE12A442A (1.0–1.1)
 
 zm_any_player_ee\scripts\zm\zm_buried\super_any_player_ee.gsc
-- 0xC2D2F635 (1.5.1–current)
+- 0xC2D2F635 (1.5.1–v1.6.0)
 - 0x38510665 (1.5.0)
 - 0x30B0EC3C
 
@@ -84,7 +85,8 @@ zm_any_player_ee\scripts\zm\zm_buried\super_ee_any_player.gsc
 - 0x656E442D (1.1.1)
 
 zm_any_player_ee\scripts\zm\zm_highrise\die_rise_any_player_ee.gsc
-- 0x73D5FF86 (1.5.1–current)
+- 0xE60C7592 (current)
+- 0x73D5FF86 (1.5.1–v1.6.0)
 - 0x6B74F51D (1.4.4–1.5.0)
 - 0x754E5753
 - 0xFB0503AE (1.4.3)
@@ -110,7 +112,8 @@ zm_any_player_ee\scripts\zm\zm_tomb\origins_any_player_ee.gsc
 - 0x8E093AAB
 
 zm_any_player_ee\scripts\zm\zm_transit\tranzit_maxis_any_player_ee.gsc
-- 0x9A1DFCAC (1.5.1–current)
+- 0xA6DD03D9 (current)
+- 0x9A1DFCAC (1.5.1–v1.6.0)
 - 0x462CD62C (1.4.4–1.5.0)
 - 0xE46D1B7D
 - 0xA54994AF (1.4.3)
