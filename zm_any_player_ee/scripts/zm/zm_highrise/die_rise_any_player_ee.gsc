@@ -36,13 +36,44 @@ msg()
 //Force build navcard table
 spawn_navcomputer()
 {
-	flag_wait( "initial_players_connected" );
+	level.navcomputer_spawned = true;
+	flag_wait( "start_zombie_round_logic" );
+	waittillframeend;
+	spawn_navcomputer = false;
+	players = get_players();
 
-	for ( i = 0; i < get_players().size; i++ )
+	for ( i = 0; i < players.size; i++ )
 	{
-		if ( !get_players()[i] maps\mp\zombies\_zm_stats::get_global_stat( "sq_highrise_started" ) )
+		if ( !players[i] maps\mp\zombies\_zm_stats::get_global_stat( "sq_highrise_started" ) )
 		{
-			maps\mp\zm_highrise_sq::update_sidequest_stats( "sq_highrise_started" );
+			spawn_navcomputer = true;
+			break;
+		}
+	}
+
+	if ( !spawn_navcomputer )
+		return;
+
+	get_players()[0] maps\mp\zombies\_zm_buildables::player_finish_buildable( level.sq_buildable.buildablezone );
+
+	if ( isdefined( level.sq_buildable ) && isdefined( level.sq_buildable.model ) )
+	{
+		buildable = level.sq_buildable.buildablezone;
+
+		for ( i = 0; i < buildable.pieces.size; i++ )
+		{
+			if ( isdefined( buildable.pieces[i].model ) )
+			{
+				buildable.pieces[i].model delete();
+				maps\mp\zombies\_zm_unitrigger::unregister_unitrigger( buildable.pieces[i].unitrigger );
+			}
+
+			if ( isdefined( buildable.pieces[i].part_name ) )
+			{
+				buildable.stub.model notsolid();
+				buildable.stub.model show();
+				buildable.stub.model showpart( buildable.pieces[i].part_name );
+			}
 		}
 	}
 }
@@ -160,11 +191,12 @@ sq_1()
 {
 	level endon( "sq_ball_picked_up" );
 	level waittill( "sq_1" + "_" + "pts_1" + "_started" );
-	level.pts_ghoul = get_players().size;
+	players = get_players();
+	level.pts_ghoul = players.size;
 
-	for ( i = 0; i < get_players().size; i++ )
+	for ( i = 0; i < players.size; i++ )
 	{
-		get_players()[i] thread onPlayerDisconnect( 0 );
+		players[i] thread onPlayerDisconnect( 0 );
 	}
 
 	wait_for_all_springpads_placed();
@@ -174,12 +206,13 @@ sq_1()
 sq_2()
 {
 	level waittill( "sq_2" + "_" + "pts_2" + "_started" );
-	level.pts_lion = get_players().size;
+	players = get_players();
+	level.pts_lion = players.size;
 
-	for ( i = 0; i < get_players().size; i++ )
+	for ( i = 0; i < players.size; i++ )
 	{
-		get_players()[i] thread onPlayerDisconnect( 1 );
-		get_players()[i] thread pts_watch_springpad_use();
+		players[i] thread onPlayerDisconnect( 1 );
+		players[i] thread pts_watch_springpad_use();
 	}
 
 	thread onPickUp();
