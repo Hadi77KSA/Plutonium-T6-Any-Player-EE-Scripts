@@ -85,7 +85,9 @@ zm_any_player_ee\scripts\zm\zm_buried\super_ee_any_player.gsc
 - 0x656E442D (1.1.1)
 
 zm_any_player_ee\scripts\zm\zm_highrise\die_rise_any_player_ee.gsc
-- 0xE60C7592 (current)
+- 0x24BC7638 (current)
+- 0xDC2E3A48
+- 0xE60C7592
 - 0x73D5FF86 (1.5.1–v1.6.0)
 - 0x6B74F51D (1.4.4–1.5.0)
 - 0x754E5753

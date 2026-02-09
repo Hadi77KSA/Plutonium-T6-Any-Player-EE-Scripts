@@ -126,6 +126,7 @@ atd()
 {
 	sq_atd_elevators();
 	flag_wait( "sq_atd_elevator_activated" );
+	richtofen_talking_to_samuel();
 	waittillframeend;
 	sq_atd_drg_puzzle();
 
@@ -167,6 +168,26 @@ sq_atd_elevators()
 		{
 			flag_set( a_elevator_flags[i] );
 		}
+	}
+}
+
+richtofen_talking_to_samuel()
+{
+	level endon( "end_game" );
+	level endon( "intermission" );
+
+	if ( level.intermission || level.richcompleted )
+	{
+		return;
+	}
+
+	level endon( "richtofen_c_complete" );
+	waittillframeend;
+
+	while ( is_true( level.richtofen_talking_to_samuel ) )
+	{
+		wait 1;
+		waittillframeend;
 	}
 }
 
@@ -249,7 +270,31 @@ place_ball_think( t_place_ball, s_lion_spot )
 {
 	t_place_ball endon( "delete" );
 	t_place_ball waittill( "trigger" );
+	remove = false;
+
+	if ( !isdefined( s_lion_spot.springpad_buddy.springpad ) )
+	{
+		s_lion_spot.springpad_buddy.springpad = s_lion_spot.springpad;
+		remove = true;
+	}
+
 	waittillframeend;
+
+	if ( remove )
+	{
+		s_lion_spot.springpad_buddy.springpad = undefined;
+
+		if ( !isdefined( s_lion_spot.springpad_buddy.which_ball ) )
+		{
+			s_lion_spot.springpad_buddy.which_ball = s_lion_spot.which_ball;
+			s_lion_spot.which_ball = undefined;
+			s_lion_spot.springpad_buddy.which_generator = s_lion_spot.which_generator;
+			s_lion_spot.which_generator = undefined;
+			m_ball_anim = getEnt( "trample_gen_" + s_lion_spot.script_noteworthy, "targetname" );
+			m_ball_anim.targetname = "trample_gen_" + s_lion_spot.springpad_buddy.script_noteworthy;
+		}
+	}
+
 	pts_should_springpad_create_trigs( s_lion_spot );
 	pts_should_springpad_create_trigs( s_lion_spot.springpad_buddy );
 
@@ -267,7 +312,7 @@ place_ball_think( t_place_ball, s_lion_spot )
 					if ( isdefined( a_lion_spots[i].springpad ) && a_lion_spots[i] != s_lion_spot && a_lion_spots[i].springpad_buddy != s_lion_spot )
 					{
 						pts_putdown_trigs_create_for_spot( a_lion_spots[i], level.players[i] );
-						thread place_ball_think( a_lion_spots[i].pts_putdown_trigs[level.players[i].characterindex], a_lion_spots[i] );
+						level.players[i] thread place_ball_think( a_lion_spots[i].pts_putdown_trigs[level.players[i].characterindex], a_lion_spots[i] );
 					}
 				}
 			}
@@ -352,10 +397,25 @@ pts_should_player_create_trigs( player )
 
 	for ( i = 0; i < a_lion_spots.size; i++ )
 	{
-		if ( isdefined( a_lion_spots[i].springpad ) && ( isdefined( a_lion_spots[i].springpad_buddy.springpad ) || ( isdefined( level.pts_lion ) && ( level.pts_lion == 1 || ( level.pts_lion == 3 && flag( "pts_2_generator_1_started" ) ) ) ) ) )
+		if ( isdefined( a_lion_spots[i].springpad ) )
 		{
-			pts_putdown_trigs_create_for_spot( a_lion_spots[i], player );
-			thread place_ball_think( a_lion_spots[i].pts_putdown_trigs[player.characterindex], a_lion_spots[i] );
+			if ( isdefined( level.pts_lion ) && level.pts_lion < 4 )
+			{
+				if ( isdefined( a_lion_spots[i].springpad_buddy.springpad ) || ( level.pts_lion == 1 || ( level.pts_lion == 3 && flag( "pts_2_generator_1_started" ) ) ) )
+				{
+					if ( !isdefined( a_lion_spots[i].springpad_buddy.springpad ) )
+					{
+						maps\mp\zm_highrise_sq_pts::pts_putdown_trigs_create_for_spot( a_lion_spots[i], player );
+					}
+
+					pts_putdown_trigs_create_for_spot( a_lion_spots[i], player );
+					player thread place_ball_think( a_lion_spots[i].pts_putdown_trigs[player.characterindex], a_lion_spots[i] );
+				}
+			}
+			else if ( isdefined( a_lion_spots[i].springpad_buddy.springpad ) && !isdefined( a_lion_spots[i].which_ball ) && !isdefined( a_lion_spots[i].springpad_buddy.which_ball ) )
+			{
+				player thread place_ball_think( a_lion_spots[i].pts_putdown_trigs[player.characterindex], a_lion_spots[i] );
+			}
 		}
 	}
 }
@@ -365,19 +425,28 @@ pts_should_springpad_create_trigs( s_lion_spot )
 {
 	waittillframeend;
 
-	if ( isdefined( s_lion_spot.springpad ) && isdefined( s_lion_spot.springpad_buddy ) && ( isdefined( s_lion_spot.springpad_buddy.springpad ) || ( isdefined( level.pts_lion ) && ( level.pts_lion == 1 || ( level.pts_lion == 3 && flag( "pts_2_generator_1_started" ) ) ) ) ) )
+	if ( isdefined( s_lion_spot.springpad ) && isdefined( s_lion_spot.springpad_buddy ) )
 	{
 		for ( i = 0; i < level.players.size; i++ )
 		{
 			if ( isdefined( level.players[i].zm_sq_has_ball ) && level.players[i].zm_sq_has_ball )
 			{
-				pts_putdown_trigs_create_for_spot( s_lion_spot, level.players[i] );
-				thread place_ball_think( s_lion_spot.pts_putdown_trigs[level.players[i].characterindex], s_lion_spot );
-
-				if ( isdefined( s_lion_spot.springpad_buddy.springpad ) )
+				if ( isdefined( level.pts_lion ) && level.pts_lion < 4 )
 				{
-					pts_putdown_trigs_create_for_spot( s_lion_spot.springpad_buddy, level.players[i] );
-					thread place_ball_think( s_lion_spot.springpad_buddy.pts_putdown_trigs[level.players[i].characterindex], s_lion_spot.springpad_buddy );
+					if ( isdefined( s_lion_spot.springpad_buddy.springpad ) || ( level.pts_lion == 1 || ( level.pts_lion == 3 && flag( "pts_2_generator_1_started" ) ) ) )
+					{
+						if ( !isdefined( s_lion_spot.springpad_buddy.springpad ) )
+						{
+							maps\mp\zm_highrise_sq_pts::pts_putdown_trigs_create_for_spot( s_lion_spot, level.players[i] );
+						}
+
+						pts_putdown_trigs_create_for_spot( s_lion_spot, level.players[i] );
+						level.players[i] thread place_ball_think( s_lion_spot.pts_putdown_trigs[level.players[i].characterindex], s_lion_spot );
+					}
+				}
+				else if ( isdefined( s_lion_spot.springpad_buddy.springpad ) && !isdefined( s_lion_spot.which_ball ) && !isdefined( s_lion_spot.springpad_buddy.which_ball ) )
+				{
+					level.players[i] thread place_ball_think( s_lion_spot.pts_putdown_trigs[level.players[i].characterindex], s_lion_spot );
 				}
 			}
 		}
