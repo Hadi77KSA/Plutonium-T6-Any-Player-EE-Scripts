@@ -132,6 +132,14 @@ atd()
 
 	if ( num_player_valid() != 4 )
 	{
+		remove = false;
+
+		if ( !flag( "sq_atd_drg_puzzle_1st_order" ) )
+		{
+			flag_set( "sq_atd_drg_puzzle_1st_order" );
+			remove = true;
+		}
+
 		a_puzzle_trigs = getentarray( "trig_atd_drg_puzzle", "targetname" );
 
 		for ( i = 0; i < a_puzzle_trigs.size; i++ )
@@ -139,12 +147,18 @@ atd()
 			if ( !a_puzzle_trigs[i].drg_active )
 			{
 				m_unlit = getent( a_puzzle_trigs[i].target, "targetname" );
-				m_lit = m_unlit.lit_icon;
-				v_top = m_unlit.origin;
-				v_hidden = m_lit.origin;
-				m_lit.origin = v_top;
+				v_hidden = m_unlit.lit_icon.origin;
+				m_unlit.lit_icon.origin = m_unlit.origin;
 				m_unlit.origin = v_hidden;
+				a_puzzle_trigs[i] notify( "trigger", level.players[0] );
+				waittillframeend;
+				level.sq_atd_cur_drg = 4;
 			}
+		}
+
+		if ( remove )
+		{
+			flag_clear( "sq_atd_drg_puzzle_1st_order" );
 		}
 	}
 }
