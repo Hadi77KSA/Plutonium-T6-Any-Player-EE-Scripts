@@ -88,8 +88,10 @@ maxis_sidequest_c()
 		{
 			if ( isdefined( level.players[0].buildableturbine ) )
 			{
-				foreach ( zone in screech_zones )
+				for ( x = 0; x < screech_zones.size; x++ )
 				{
+					zone = screech_zones[x];
+
 					if ( distancesquared( level.players[0].buildableturbine.origin, zone.origin ) < zone.radius * zone.radius )
 					{
 						if ( !isdefined( level.sq_progress["maxis"]["C_turbine_1"] ) )

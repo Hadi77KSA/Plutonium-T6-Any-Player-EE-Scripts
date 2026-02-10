@@ -144,12 +144,13 @@ sq_tpo_check_players_in_time_bomb_volume( e_volume )
 
 _are_all_players_in_time_bomb_volume( e_volume )
 {
-	n_required_players = get_players().size;
+	a_players = get_players();
+	n_required_players = a_players.size;
 	n_players_in_position = 0;
 
-	foreach ( player in get_players() )
+	for ( i = 0; i < a_players.size; i++ )
 	{
-		if ( player istouching( e_volume ) )
+		if ( a_players[i] istouching( e_volume ) )
 			n_players_in_position++;
 	}
 
@@ -176,8 +177,8 @@ sq_bp_start_puzzle_lights()
 	a_button_structs = getstructarray( "sq_bp_button", "targetname" );
 	a_tags = [];
 
-	foreach ( m_button in a_button_structs )
-		a_tags[a_tags.size] = m_button.script_string;
+	for ( i = 0; i < a_button_structs.size; i++ )
+		a_tags[a_tags.size] = a_button_structs[i].script_string;
 
 	a_tags = array_randomize( a_tags );
 
