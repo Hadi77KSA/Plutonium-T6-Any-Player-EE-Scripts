@@ -306,9 +306,10 @@ sq_metagame()
 	bulb_on[0] = 0;
 	bulb_on[1] = 0;
 	bulb_on[2] = 0;
+	n_metagame_machine_lights_on = 0;
 	flag_wait( "start_zombie_round_logic" );
 	players = get_players();
-	player_count = min( players.size, 4 ); //in case of more than 4 players, only checks the progress of 4 players
+	player_count = players.size;
 
 	for ( n_player = 0; n_player < player_count; n_player++ )
 	{
@@ -320,13 +321,18 @@ sq_metagame()
 				n_stat_nav_value = players[n_player] maps\mp\zombies\_zm_stats::get_global_stat( a_stat_nav[n_stat] );
 			}
 
-			if ( n_stat_value == 1 )
+			if ( n_player < 4 ) //in case of more than 4 players, only checks the completion progress of 4 players
 			{
-				is_blue_on = 1;
-			}
-			else if ( n_stat_value == 2 )
-			{
-				is_orange_on = 1;
+				if ( n_stat_value == 1 )
+				{
+					n_metagame_machine_lights_on++;
+					is_blue_on = 1;
+				}
+				else if ( n_stat_value == 2 )
+				{
+					n_metagame_machine_lights_on++;
+					is_orange_on = 1;
+				}
 			}
 
 			if ( n_stat_nav_value )
@@ -336,7 +342,7 @@ sq_metagame()
 		}
 	}
 
-	if ( level.n_metagame_machine_lights_on != 12 && level.n_metagame_machine_lights_on == player_count * 3 ) //changed to adapt to the number of players
+	if ( level.n_metagame_machine_lights_on != 12 && n_metagame_machine_lights_on == min( player_count, 4 ) * 3 ) //changed to adapt to the number of players
 	{
 		if ( is_blue_on && is_orange_on )
 			return;
