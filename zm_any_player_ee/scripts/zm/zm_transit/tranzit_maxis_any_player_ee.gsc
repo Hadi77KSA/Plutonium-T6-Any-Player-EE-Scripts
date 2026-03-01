@@ -81,7 +81,7 @@ maxis_sidequest_c()
 
 	for (;;)
 	{
-		level waittill_any( "turbine_deployed", "connected" );
+		level maps\mp\_utility::waittill_either( "turbine_deployed", "connected" );
 		waittillframeend;
 
 		if ( level.players.size == 1 )

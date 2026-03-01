@@ -104,7 +104,7 @@ sidequest_main()
 	}
 }
 
-//returns the number of players, and if the number is greater than 4, returns 4. Used for specific steps
+//returns either the number of players or the number 4, whichever is less. Used for specific steps
 num_player_valid( is_generator )
 {
 	n_players = level.players.size;
@@ -114,12 +114,7 @@ num_player_valid( is_generator )
 		n_players = level.pts_ghoul;
 	}
 
-	if ( n_players > 4 )
-	{
-		n_players = 4;
-	}
-
-	return n_players;
+	return min( n_players, 4 );
 }
 
 atd()
