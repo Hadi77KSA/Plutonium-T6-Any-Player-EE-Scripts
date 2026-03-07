@@ -47,7 +47,7 @@ box_footprint_think()
 		s_unitrigger_stub.script_height = 64;
 		s_unitrigger_stub.cursor_hint = "HINT_NOICON";
 		s_unitrigger_stub.script_unitrigger_type = "unitrigger_box_use";
-		unitrigger_force_per_player_triggers( s_unitrigger_stub, 1 );
+		maps\mp\zombies\_zm_unitrigger::unitrigger_force_per_player_triggers( s_unitrigger_stub, 1 );
 		s_unitrigger_stub.prompt_and_visibility_func = ::prompt_and_visibility_func;
 		s_unitrigger_stub.require_look_at = 1;
 		maps\mp\zombies\_zm_unitrigger::register_static_unitrigger( s_unitrigger_stub, ::trigger_func );
