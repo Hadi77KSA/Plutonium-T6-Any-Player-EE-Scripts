@@ -96,11 +96,11 @@ maxis_sidequest_c()
 					{
 						if ( !isdefined( level.sq_progress["maxis"]["C_turbine_1"] ) )
 						{
-							level.sq_progress["maxis"]["C_turbine_1"] = 1;
+							level.sq_progress["maxis"]["C_turbine_1"] = level.players[0].buildableturbine;
 						}
 						else
 						{
-							level.sq_progress["maxis"]["C_turbine_2"] = 1;
+							level.sq_progress["maxis"]["C_turbine_2"] = level.players[0].buildableturbine;
 						}
 
 						level notify( "turbine_deployed" );
@@ -110,11 +110,11 @@ maxis_sidequest_c()
 		}
 		else
 		{
-			if ( isdefined( level.sq_progress["maxis"]["C_turbine_1"] ) && !isdefined( level.sq_progress["maxis"]["C_turbine_1"].turbine_watch_cleanup ) )
+			if ( isdefined( level.sq_progress["maxis"]["C_turbine_1"] ) && !isdefined( level.sq_progress["maxis"]["C_screecher_1"] ) )
 			{
 				level.sq_progress["maxis"]["C_turbine_1"] = undefined;
 			}
-			else if ( isdefined( level.sq_progress["maxis"]["C_turbine_2"] ) && !isdefined( level.sq_progress["maxis"]["C_turbine_2"].turbine_watch_cleanup ) )
+			else if ( isdefined( level.sq_progress["maxis"]["C_turbine_2"] ) && !isdefined( level.sq_progress["maxis"]["C_screecher_2"] ) )
 			{
 				level.sq_progress["maxis"]["C_turbine_2"] = undefined;
 			}
