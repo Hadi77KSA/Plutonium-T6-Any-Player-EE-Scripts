@@ -46,7 +46,6 @@ box_footprint_think()
 		s_unitrigger_stub.script_width = 64;
 		s_unitrigger_stub.script_height = 64;
 		s_unitrigger_stub.cursor_hint = "HINT_NOICON";
-		s_unitrigger_stub.hint_string = &"ZM_TOMB_PERK_ONEINCH";
 		s_unitrigger_stub.script_unitrigger_type = "unitrigger_box_use";
 		unitrigger_force_per_player_triggers( s_unitrigger_stub, 1 );
 		s_unitrigger_stub.prompt_and_visibility_func = ::prompt_and_visibility_func;
@@ -63,7 +62,7 @@ prompt_and_visibility_func( player )
 		return false;
 	}
 
-	self sethintstring( self.stub.hint_string, 0 );
+	self sethintstring( &"ZM_TOMB_PERK_ONEINCH", 0 );
 	return true;
 }
 
