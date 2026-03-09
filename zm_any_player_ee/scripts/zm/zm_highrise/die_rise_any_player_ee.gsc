@@ -121,8 +121,13 @@ atd()
 {
 	sq_atd_elevators();
 	flag_wait( "sq_atd_elevator_activated" );
-	richtofen_talking_to_samuel();
-	waittillframeend;
+
+	while ( !isdefined( level.sq_atd_cur_drg ) )
+	{
+		wait 0.25;
+		waittillframeend;
+	}
+
 	sq_atd_drg_puzzle();
 
 	if ( num_player_valid() != 4 )
@@ -177,26 +182,6 @@ sq_atd_elevators()
 		{
 			flag_set( a_elevator_flags[i] );
 		}
-	}
-}
-
-richtofen_talking_to_samuel()
-{
-	level endon( "end_game" );
-	level endon( "intermission" );
-
-	if ( level.intermission || level.richcompleted )
-	{
-		return;
-	}
-
-	level endon( "richtofen_c_complete" );
-	waittillframeend;
-
-	while ( is_true( level.richtofen_talking_to_samuel ) )
-	{
-		wait 1;
-		waittillframeend;
 	}
 }
 
