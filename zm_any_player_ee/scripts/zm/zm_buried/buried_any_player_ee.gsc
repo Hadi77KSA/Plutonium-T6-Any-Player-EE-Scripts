@@ -51,9 +51,11 @@ sidequest_main()
 
 ctw()
 {
+	str_notify = "sq" + "_" + "ctw" + "_started";
+
 	while ( !flag( "sq_wisp_success" ) )
 	{
-		level waittill( "sq" + "_" + "ctw" + "_started" );
+		level waittill( str_notify );
 		thread ctw_max_wisp_enery_watch();
 		level waittill( "sq_ctw_over" );
 	}
@@ -184,7 +186,7 @@ sq_bp_start_puzzle_lights()
 
 	while ( !isdefined( level.t_start ) )
 	{
-		waittillframeend;
+		wait 0.05;
 	}
 
 	level.t_start waittill( "trigger" );
