@@ -24,7 +24,7 @@ This patch builds the Nav Tables and applies the Navcards to all maps for all pl
 ### Alternative Installation Methods
 Following any of these methods makes the scripts be loaded automatically without needing to select the mod from the in-game `Mods` menu.
 
-#### Complete Scripts Folder
+#### All Scripts
 - Follow steps 1 & 2 from the main installation instructions.
 - Go to `%localappdata%\Plutonium\storage\t6` by pressing Win+R then pasting the mentioned path then press OK.
 - Open the `zm_any_player_ee` folder and copy the `zm_any_player_ee.iwd` file from inside of it.
@@ -38,7 +38,6 @@ Following any of these methods makes the scripts be loaded automatically without
   - TranZit's scripts go to `scripts\zm\zm_transit`
   - Die Rise's scripts go to `scripts\zm\zm_highrise`
   - Buried's scripts go to `scripts\zm\zm_buried`
-  - `super_any_player_ee.gsc` goes to `scripts\zm\zm_buried`
   - Origins' scripts go to `scripts\zm\zm_tomb`
 
 ## Features
@@ -85,13 +84,13 @@ Minimum number of required targets:
 - 2p: 39 targets (Candy Shop + Saloon (19))
 - Otherwise: all 84 targets
 
-### Super Easter Egg
+#### Super Easter Egg
 Allows for the Super Easter Egg button to be accessible with any number of players as long as:
 - the players have, collectively, inserted the Navcards on all three Victis maps of TranZit, Die Rise, and Buried;
 - each player in the lobby has completed the Victis maps' Easter Eggs on the same side across the maps;
 - the completed side across all players is the same.
 
-For more than 4 players, the mod will only use the player progress that is shown on the box.
+For more than 4 players, the mod will only check the player progress that is shown on the box.
 
 ### Origins
 Spawns stone tablets near the challenge boxes for players to grab the One Inch Punch from. This allows for matches of 5+ players to be able to obtain the One Inch Punch to complete *Step 6: Wield a Fist of Iron* of the Easter Egg.
@@ -116,23 +115,18 @@ To install, follow the steps in the **Individual Files** alternative installatio
 ### Q: Do I/we need all of these mods to do all the EEs?
 A: Depends on the number of players and which maps and side you choose. The host is required to have the mods installed. The following shows the required files:
   - 1p:-
-    - TranZit Maxis:
-      - `tranzit_maxis_any_player_ee.gsc`
+    - TranZit Maxis: `tranzit_maxis_any_player_ee.gsc`
     - Die Rise: `die_rise_any_player_ee.gsc`
-    - Buried: `buried_any_player_ee.gsc`
-    - Super EE: `super_any_player_ee.gsc`
+    - Buried and Super: `buried_any_player_ee.gsc`
   - 2p:-
     - Die Rise: `die_rise_any_player_ee.gsc`
-    - Buried: `buried_any_player_ee.gsc`
-    - Super EE: `super_any_player_ee.gsc`
+    - Buried and Super: `buried_any_player_ee.gsc`
   - 3p:-
     - Die Rise: `die_rise_any_player_ee.gsc`
-    - Buried Richtofen:
-      - `buried_any_player_ee.gsc`
-    - Super EE: `super_any_player_ee.gsc`
+    - Buried Richtofen and Super: `buried_any_player_ee.gsc`
   - 4p:- None
   - More than 4p:-
-    - Super EE: `super_any_player_ee.gsc`
+    - Super: `buried_any_player_ee.gsc`
     - Origins: `origins_any_player_ee.gsc`
 
 ### Q: I am stuck on some Easter Egg step. Could you help?
@@ -145,6 +139,9 @@ flashScriptHashes; scriptHashes
 ```
 If the scripts are loaded, they will appear in the list of scripts.
 
+### Q: I want to use this without loading it as a mod so that I can have my normal stats or play with a different mod loaded. How do I load these scripts without loading them as a mod from the `Mods` menu?
+A: Since my mod is composed of only `.gsc` script files, it can be loaded without the need to select it from the in-game `Mods` menu. To do so, follow one of the **Alternative Installation Methods** to make the scripts able to be loaded automatically.
+
 ### Q: On TranZit, should I worry that Maxis says the Turbine does not have enough power shortly after placing the Turbine under the tower?
 A: Likely a vanilla game issue, especially if the Turbine begins not emitting power. If the Turbine is emitting power, then you probably should not worry. Wait at least 6 seconds after placing the Turbine(s) before killing the Avogadro just to be safe.
 
@@ -152,7 +149,7 @@ A: Likely a vanilla game issue, especially if the Turbine begins not emitting po
 A: Vanilla game problem. You need to make sure the Nav Table is fully built.
 
 ### Q: On Die Rise, why is the Ballistic Knife step not completing even though Maxis said his quote about reincarnation, and the Ballistic Knife is upgraded and is shot into the Buddha room?
-A: Vanilla game problem. The player shooting the Ballistic Knife must not have a melee weapon (Bowie Knife, Galvaknuckles) nor have bled out, which includes falling off the map and getting crushed with the exception of doing so while having Who's Who or solo Quick Revive. To fix this, either get another player—who does not have a melee weapon nor has bled out—to do the step, or if the player has a melee weapon but has not bled out, make them get rid of the melee weapon by downing while having Who's Who and letting their original self disappear.
+A: Vanilla game problem. The player shooting the Ballistic Knife must not have a melee weapon (Bowie Knife, Galvaknuckles) nor have bled out, which includes falling off the map and getting crushed with the exception of doing so while having Who's Who or solo Quick Revive. To fix this, get another player—who does not have a melee weapon nor has bled out—to do the step.
 
 ## Credits
 - CCDeroga: [TranZit Maxis mod](https://forum.plutonium.pw/topic/15338/zm-release-solo-maxis-tranzit), [Buried Maxis mod](https://forum.plutonium.pw/topic/15604/release-zm-buried-maxis-solo-ee).
