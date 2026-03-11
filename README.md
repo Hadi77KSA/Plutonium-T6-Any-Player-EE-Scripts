@@ -139,7 +139,7 @@ flashScriptHashes; scriptHashes
 ```
 If the scripts are loaded, they will appear in the list of scripts.
 
-### Q: I want to use this without loading it as a mod so that I can have my normal stats or play with a different mod loaded. How do I load these scripts without loading them as a mod from the `Mods` menu?
+### Q: I want to use this without loading it as a mod so that I can have my normal stats or play with a different mod loaded. How do I load these scripts without loading them as a mod from the Mods menu?
 A: Since my mod is composed of only `.gsc` script files, it can be loaded without the need to select it from the in-game `Mods` menu. To do so, follow one of the **Alternative Installation Methods** to make the scripts able to be loaded automatically.
 
 ### Q: On TranZit, should I worry that Maxis says the Turbine does not have enough power shortly after placing the Turbine under the tower?
