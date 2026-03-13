@@ -50,14 +50,14 @@ maxis_sidequest()
 		return;
 	}
 
-	thread maxis_sidequest_a();
+	thread watchTurbineUse();
 	thread maxis_sidequest_c();
 }
 
-maxis_sidequest_a()
+watchTurbineUse()
 {
 	level endon( "power_on" );
-	level endon( "end_avogadro_turbines" );
+	level endon( "transit_sidequest_achieved" );
 
 	for (;;)
 	{
@@ -65,6 +65,7 @@ maxis_sidequest_a()
 
 		if ( level.players.size == 1 )
 		{
+			waittillframeend;
 			waittillframeend;
 			level notify( "turbine_deployed" );
 		}
@@ -103,10 +104,12 @@ maxis_sidequest_c()
 							level.sq_progress["maxis"]["C_turbine_2"] = level.players[0].buildableturbine;
 						}
 
-						level notify( "turbine_deployed" );
 					}
 				}
 			}
+
+			waittillframeend;
+			waittillframeend;
 		}
 		else
 		{

@@ -194,6 +194,7 @@ sq_bp_start_puzzle_lights()
 	if ( level.players.size < 3 )
 	{
 		level delay_notify( "sq_bp_timeout", 0.05 );
+		thread deleteTrigger();
 	}
 	else
 	{
@@ -217,11 +218,22 @@ sq_bp_start_puzzle_lights()
 			s_button.trig delete();
 	}
 
-	if ( isdefined( level.t_start ) )
+	level notify( "sq_bp_timeout" );
+}
+
+deleteTrigger()
+{
+	level endon( "sq_ip_over" );
+	level endon( "sq_bp_wrong_button" );
+
+	do
 	{
-		level.t_start delete();
-		level notify( "sq_bp_timeout" );
+		wait 0.05;
+		waittillframeend;
 	}
+	while ( !isdefined( level.t_start ) );
+
+	level.t_start delete();
 }
 
 sq_bp_set_current_bulb( str_tag )
@@ -250,6 +262,7 @@ ows()
 ows_target_delete_timer()
 {
 	level endon( "sndEndOWSMusic" );
+	waittillframeend;
 
 	switch ( level.players.size )
 	{
@@ -310,6 +323,7 @@ sq_metagame()
 	bulb_on[2] = 0;
 	n_metagame_machine_lights_on = 0;
 	flag_wait( "start_zombie_round_logic" );
+	waittillframeend;
 	players = get_players();
 	player_count = players.size;
 
@@ -344,7 +358,7 @@ sq_metagame()
 		}
 	}
 
-	if ( level.n_metagame_machine_lights_on != 12 && n_metagame_machine_lights_on == min( player_count, 4 ) * 3 ) //changed to adapt to the number of players
+	if ( level.n_metagame_machine_lights_on != 12 && n_metagame_machine_lights_on == int( min( player_count, 4 ) ) * 3 ) //changed to adapt to the number of players
 	{
 		if ( is_blue_on && is_orange_on )
 			return;

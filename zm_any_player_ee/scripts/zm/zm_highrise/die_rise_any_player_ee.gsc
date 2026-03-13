@@ -114,7 +114,7 @@ num_player_valid( is_generator )
 		n_players = level.pts_ghoul;
 	}
 
-	return min( n_players, 4 );
+	return int( min( n_players, 4 ) );
 }
 
 atd()
@@ -134,9 +134,9 @@ atd()
 	{
 		remove = false;
 
-		if ( !flag( "sq_atd_drg_puzzle_1st_order" ) )
+		if ( !flag( "sq_atd_drg_puzzle_1st_error" ) )
 		{
-			flag_set( "sq_atd_drg_puzzle_1st_order" );
+			flag_set( "sq_atd_drg_puzzle_1st_error" );
 			remove = true;
 		}
 
@@ -158,7 +158,7 @@ atd()
 
 		if ( remove )
 		{
-			flag_clear( "sq_atd_drg_puzzle_1st_order" );
+			flag_clear( "sq_atd_drg_puzzle_1st_error" );
 		}
 	}
 }
