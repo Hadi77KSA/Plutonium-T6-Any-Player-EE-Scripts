@@ -376,18 +376,18 @@ onPickUp()
 	}
 }
 
-#define NOOP( __a, __b )
-#define SQ_2_PLACE_BALL_THINK( __player, __s_lion_spot ) \
+#define NOOP(__a,__b)
+#define SQ_2_PLACE_BALL_THINK(__player,__s_lion_spot) \
 	__player thread place_ball_think( __s_lion_spot.pts_putdown_trigs[__player.characterindex], __s_lion_spot );
 
-#define SQ_2_TRAMPLE_STEAM_BUDDY_ELSE_LOGIC( __player, __s_lion_spot ) \
+#define SQ_2_TRAMPLE_STEAM_BUDDY_ELSE_LOGIC(__player,__s_lion_spot_buddy) \
 	else \
 	{ \
-		pts_putdown_trigs_create_for_spot( __s_lion_spot, __player ); \
-		SQ_2_PLACE_BALL_THINK( __player, __s_lion_spot ) \
+		pts_putdown_trigs_create_for_spot( __s_lion_spot_buddy, __player ); \
+		SQ_2_PLACE_BALL_THINK( __player, __s_lion_spot_buddy ) \
 	}
 
-#define SQ_2_TRAMPLE_STEAM_CHECKS( __player, __s_lion_spot, __buddy_else_logic, __buddy_place_ball_think ) \
+#define SQ_2_TRAMPLE_STEAM_CHECKS(__player,__s_lion_spot,__buddy_else_logic,__buddy_place_ball_think) \
 	if ( isdefined( level.pts_lion ) && level.pts_lion < 4 ) \
 	{ \
 		if ( isdefined( __s_lion_spot.springpad_buddy.springpad ) || ( level.pts_lion == 1 || ( level.pts_lion == 3 && flag( "pts_2_generator_1_started" ) ) ) ) \
@@ -397,7 +397,7 @@ onPickUp()
 				maps\mp\zm_highrise_sq_pts::pts_putdown_trigs_create_for_spot( __s_lion_spot, __player ); \
 			} \
 			__buddy_else_logic( __player, __s_lion_spot.springpad_buddy ) \
-\
+			\
 			pts_putdown_trigs_create_for_spot( __s_lion_spot, __player ); \
 			SQ_2_PLACE_BALL_THINK( __player, __s_lion_spot ) \
 		} \
