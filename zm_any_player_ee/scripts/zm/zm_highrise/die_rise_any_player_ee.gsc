@@ -359,6 +359,26 @@ is_springpad_in_place( m_springpad )
 
 			if ( n_dot > 0.98 )
 			{
+				if ( isdefined( a_lion_spots[i].pts_putdown_trigs ) && a_lion_spots[i].pts_putdown_trigs.size > 0 )
+				{
+    				foreach ( t_putdown in a_lion_spots[i].pts_putdown_trigs )
+					{
+						t_putdown notify( "delete" );
+					}
+
+					pts_putdown_trigs_remove_for_spot( a_lion_spots[i] );
+				}
+
+				if ( isdefined( a_lion_spots[i].springpad_buddy.pts_putdown_trigs ) && a_lion_spots[i].springpad_buddy.pts_putdown_trigs.size > 0 )
+				{
+    				foreach ( t_putdown in a_lion_spots[i].springpad_buddy.pts_putdown_trigs )
+					{
+						t_putdown notify( "delete" );
+					}
+
+					pts_putdown_trigs_remove_for_spot( a_lion_spots[i].springpad_buddy );
+				}
+
 				wait 0.1;
 				level thread pts_should_springpad_create_trigs( a_lion_spots[i] );
 				break;
@@ -390,7 +410,7 @@ onPickUp()
 #define SQ_2_TRAMPLE_STEAM_CHECKS(__player,__s_lion_spot,__buddy_else_logic,__buddy_place_ball_think) \
 	if ( isdefined( level.pts_lion ) && level.pts_lion < 4 ) \
 	{ \
-		if ( isdefined( __s_lion_spot.springpad_buddy.springpad ) || ( level.pts_lion == 1 || ( level.pts_lion == 3 && flag( "pts_2_generator_1_started" ) ) ) ) \
+		if ( isdefined( __s_lion_spot.springpad_buddy.springpad ) || level.pts_lion == 1 || ( level.pts_lion == 3 && flag( "pts_2_generator_1_started" ) ) ) \
 		{ \
 			if ( !isdefined( __s_lion_spot.springpad_buddy.springpad ) ) \
 			{ \
@@ -443,7 +463,7 @@ pts_should_springpad_create_trigs( s_lion_spot )
 //if the number of players is 3 or less, once a ball is picked up, gives the ability to place a 2nd ball on a set of Trample Steams that already has a ball flinging from them for the Maxis Trample Steam step
 pts_putdown_trigs_create_for_spot( s_lion_spot, player )
 {
-	if ( ( !isdefined( level.pts_lion ) || level.pts_lion >= 4 ) || !( isdefined( s_lion_spot.which_ball ) || isdefined( s_lion_spot.springpad_buddy ) && isdefined( s_lion_spot.springpad_buddy.which_ball ) ) )
+	if ( !( isdefined( s_lion_spot.which_ball ) || isdefined( s_lion_spot.springpad_buddy ) && isdefined( s_lion_spot.springpad_buddy.which_ball ) ) )
 		return;
 
 	t_place_ball = sq_pts_create_use_trigger( s_lion_spot.origin, 16, 70, &"ZM_HIGHRISE_SQ_PUTDOWN_BALL" );
