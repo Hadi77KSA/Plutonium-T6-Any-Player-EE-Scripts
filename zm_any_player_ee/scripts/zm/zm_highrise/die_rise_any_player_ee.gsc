@@ -202,6 +202,51 @@ sq_atd_drg_puzzle()
 
 // Trample Steam steps
 
+#define NOOP(__a,__b)
+#define SQ_2_PLACE_BALL_TRIGGER_CLEANUP(__s_lion_spot) \
+	if ( isdefined( __s_lion_spot.pts_putdown_trigs ) && __s_lion_spot.pts_putdown_trigs.size > 0 ) \
+	{ \
+		foreach ( t_putdown in __s_lion_spot.pts_putdown_trigs ) \
+		{ \
+			t_putdown notify( "delete" ); \
+		} \
+		\
+		pts_putdown_trigs_remove_for_spot( __s_lion_spot ); \
+	}
+
+#define SQ_2_PLACE_BALL_THINK(__player,__s_lion_spot) \
+	__player thread place_ball_think( __s_lion_spot.pts_putdown_trigs[__player.characterindex], __s_lion_spot );
+
+#define SQ_2_TRAMPLE_STEAM_CREATE_TRIGS(__player,__s_lion_spot) \
+	pts_putdown_trigs_create_for_spot( __s_lion_spot, __player ); \
+	SQ_2_PLACE_BALL_THINK( __player, __s_lion_spot );
+
+#define SQ_2_TRAMPLE_STEAM_BUDDY_ELSE_LOGIC(__player,__s_lion_spot_buddy) \
+	else \
+	{ \
+		SQ_2_TRAMPLE_STEAM_CREATE_TRIGS( __player, __s_lion_spot_buddy ) \
+	}
+
+#define SQ_2_TRAMPLE_STEAM_CHECKS(__player,__s_lion_spot,__buddy_else_logic,__buddy_place_ball_think) \
+	if ( isdefined( level.pts_lion ) && level.pts_lion < 4 ) \
+	{ \
+		if ( isdefined( __s_lion_spot.springpad_buddy.springpad ) || level.pts_lion == 1 || ( level.pts_lion == 3 && flag( "pts_2_generator_1_started" ) && !isdefined( __s_lion_spot.which_ball ) && !isdefined( __s_lion_spot.springpad_buddy.which_ball ) ) ) \
+		{ \
+			if ( !isdefined( __s_lion_spot.springpad_buddy.springpad ) ) \
+			{ \
+				maps\mp\zm_highrise_sq_pts::pts_putdown_trigs_create_for_spot( __s_lion_spot, __player ); \
+			} \
+			__buddy_else_logic( __player, __s_lion_spot.springpad_buddy ); \
+			\
+			SQ_2_TRAMPLE_STEAM_CREATE_TRIGS( __player, __s_lion_spot ); \
+		} \
+	} \
+	else if ( isdefined( __s_lion_spot.springpad_buddy.springpad ) && !isdefined( __s_lion_spot.which_ball ) && !isdefined( __s_lion_spot.springpad_buddy.which_ball ) ) \
+	{ \
+		SQ_2_PLACE_BALL_THINK( __player, __s_lion_spot ); \
+		__buddy_place_ball_think( __player, __s_lion_spot.springpad_buddy ); \
+	}
+
 sq_1()
 {
 	level endon( "sq_ball_picked_up" );
@@ -300,6 +345,15 @@ place_ball_think( t_place_ball, s_lion_spot )
 		{
 			if ( a_lion_spots[i] != s_lion_spot && a_lion_spots[i].springpad_buddy != s_lion_spot )
 			{
+				if ( !isdefined( a_lion_spots[i].springpad_buddy.springpad ) )
+				{
+					SQ_2_PLACE_BALL_TRIGGER_CLEANUP( a_lion_spots[i] );
+				}
+				else if ( !isdefined( a_lion_spots[i].springpad ) )
+				{
+					SQ_2_PLACE_BALL_TRIGGER_CLEANUP( a_lion_spots[i].springpad_buddy );
+				}
+
 				pts_should_springpad_create_trigs( a_lion_spots[i] );
 				break;
 			}
@@ -359,26 +413,8 @@ is_springpad_in_place( m_springpad )
 
 			if ( n_dot > 0.98 )
 			{
-				if ( isdefined( a_lion_spots[i].pts_putdown_trigs ) && a_lion_spots[i].pts_putdown_trigs.size > 0 )
-				{
-    				foreach ( t_putdown in a_lion_spots[i].pts_putdown_trigs )
-					{
-						t_putdown notify( "delete" );
-					}
-
-					pts_putdown_trigs_remove_for_spot( a_lion_spots[i] );
-				}
-
-				if ( isdefined( a_lion_spots[i].springpad_buddy.pts_putdown_trigs ) && a_lion_spots[i].springpad_buddy.pts_putdown_trigs.size > 0 )
-				{
-    				foreach ( t_putdown in a_lion_spots[i].springpad_buddy.pts_putdown_trigs )
-					{
-						t_putdown notify( "delete" );
-					}
-
-					pts_putdown_trigs_remove_for_spot( a_lion_spots[i].springpad_buddy );
-				}
-
+				SQ_2_PLACE_BALL_TRIGGER_CLEANUP( a_lion_spots[i] );
+				SQ_2_PLACE_BALL_TRIGGER_CLEANUP( a_lion_spots[i].springpad_buddy );
 				wait 0.1;
 				level thread pts_should_springpad_create_trigs( a_lion_spots[i] );
 				break;
@@ -396,38 +432,41 @@ onPickUp()
 	}
 }
 
+/*
 #define NOOP(__a,__b)
 #define SQ_2_PLACE_BALL_THINK(__player,__s_lion_spot) \
 	__player thread place_ball_think( __s_lion_spot.pts_putdown_trigs[__player.characterindex], __s_lion_spot );
 
+#define SQ_2_TRAMPLE_STEAM_CREATE_TRIGS(__player,__s_lion_spot) \
+	pts_putdown_trigs_create_for_spot( __s_lion_spot, __player ); \
+	SQ_2_PLACE_BALL_THINK( __player, __s_lion_spot );
+
 #define SQ_2_TRAMPLE_STEAM_BUDDY_ELSE_LOGIC(__player,__s_lion_spot_buddy) \
 	else \
 	{ \
-		pts_putdown_trigs_create_for_spot( __s_lion_spot_buddy, __player ); \
-		SQ_2_PLACE_BALL_THINK( __player, __s_lion_spot_buddy ) \
+		SQ_2_TRAMPLE_STEAM_CREATE_TRIGS( __player, __s_lion_spot_buddy ) \
 	}
 
 #define SQ_2_TRAMPLE_STEAM_CHECKS(__player,__s_lion_spot,__buddy_else_logic,__buddy_place_ball_think) \
 	if ( isdefined( level.pts_lion ) && level.pts_lion < 4 ) \
 	{ \
-		if ( isdefined( __s_lion_spot.springpad_buddy.springpad ) || level.pts_lion == 1 || ( level.pts_lion == 3 && flag( "pts_2_generator_1_started" ) ) ) \
+		if ( isdefined( __s_lion_spot.springpad_buddy.springpad ) || level.pts_lion == 1 || ( level.pts_lion == 3 && flag( "pts_2_generator_1_started" ) && !isdefined( __s_lion_spot.which_ball ) && !isdefined( __s_lion_spot.springpad_buddy.which_ball ) ) ) \
 		{ \
 			if ( !isdefined( __s_lion_spot.springpad_buddy.springpad ) ) \
 			{ \
 				maps\mp\zm_highrise_sq_pts::pts_putdown_trigs_create_for_spot( __s_lion_spot, __player ); \
 			} \
-			__buddy_else_logic( __player, __s_lion_spot.springpad_buddy ) \
+			__buddy_else_logic( __player, __s_lion_spot.springpad_buddy ); \
 			\
-			pts_putdown_trigs_create_for_spot( __s_lion_spot, __player ); \
-			SQ_2_PLACE_BALL_THINK( __player, __s_lion_spot ) \
+			SQ_2_TRAMPLE_STEAM_CREATE_TRIGS( __player, __s_lion_spot ); \
 		} \
 	} \
 	else if ( isdefined( __s_lion_spot.springpad_buddy.springpad ) && !isdefined( __s_lion_spot.which_ball ) && !isdefined( __s_lion_spot.springpad_buddy.which_ball ) ) \
 	{ \
-		SQ_2_PLACE_BALL_THINK( __player, __s_lion_spot ) \
-		__buddy_place_ball_think( __player, __s_lion_spot.springpad_buddy ) \
+		SQ_2_PLACE_BALL_THINK( __player, __s_lion_spot ); \
+		__buddy_place_ball_think( __player, __s_lion_spot.springpad_buddy ); \
 	}
-
+*/
 //on the Maxis side if the player is playing solo or 3p, once the player picks up a ball, gives the player the ability to place the ball on an already correctly placed Trample Steam without needing a Trample Steam on the opposite end. On 3p, this is executed if the ball is picked up while there's already a ball flinging.
 pts_should_player_create_trigs( player )
 {
@@ -438,7 +477,7 @@ pts_should_player_create_trigs( player )
 	{
 		if ( isdefined( a_lion_spots[i].springpad ) )
 		{
-			SQ_2_TRAMPLE_STEAM_CHECKS( player, a_lion_spots[i], NOOP, NOOP )
+			SQ_2_TRAMPLE_STEAM_CHECKS( player, a_lion_spots[i], NOOP, NOOP );
 		}
 	}
 }
@@ -454,7 +493,7 @@ pts_should_springpad_create_trigs( s_lion_spot )
 		{
 			if ( isdefined( level.players[i].zm_sq_has_ball ) && level.players[i].zm_sq_has_ball )
 			{
-				SQ_2_TRAMPLE_STEAM_CHECKS( level.players[i], s_lion_spot, SQ_2_TRAMPLE_STEAM_BUDDY_ELSE_LOGIC, SQ_2_PLACE_BALL_THINK )
+				SQ_2_TRAMPLE_STEAM_CHECKS( level.players[i], s_lion_spot, SQ_2_TRAMPLE_STEAM_BUDDY_ELSE_LOGIC, SQ_2_PLACE_BALL_THINK );
 			}
 		}
 	}
