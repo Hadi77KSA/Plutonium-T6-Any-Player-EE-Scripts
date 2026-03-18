@@ -224,7 +224,7 @@ sq_atd_drg_puzzle()
 #define SQ_2_TRAMPLE_STEAM_BUDDY_ELSE_LOGIC(__player,__s_lion_spot_buddy) \
 	else \
 	{ \
-		SQ_2_TRAMPLE_STEAM_CREATE_TRIGS( __player, __s_lion_spot_buddy ) \
+		SQ_2_TRAMPLE_STEAM_CREATE_TRIGS( __player, __s_lion_spot_buddy ); \
 	}
 
 #define SQ_2_TRAMPLE_STEAM_CHECKS(__player,__s_lion_spot,__buddy_else_logic,__buddy_place_ball_think) \
@@ -334,27 +334,19 @@ place_ball_think( t_place_ball, s_lion_spot )
 		}
 	}
 
-	pts_should_springpad_create_trigs( s_lion_spot );
+	level thread pts_should_springpad_create_trigs( s_lion_spot );
 
-	//once a player flings a ball, gives each player already carrying a ball the ability to place it on the Trample Steam(s) placed on the other set of symbols than the ones on which the ball was flung.
-	if ( isdefined( level.pts_lion ) && level.pts_lion == 3 )
+	//once a player flings a ball, gives each player already carrying a ball the ability to place it on the Trample Steam placed on the other set of symbols than the ones on which the ball was flung.
+	if ( isdefined( level.pts_lion ) && level.pts_lion == 3 && isdefined( s_lion_spot.springpad_buddy.springpad ) )
 	{
 		a_lion_spots = getstructarray( "pts_lion", "targetname" );
 
 		for ( i = 0; i < a_lion_spots.size; i++ )
 		{
-			if ( a_lion_spots[i] != s_lion_spot && a_lion_spots[i].springpad_buddy != s_lion_spot )
+			if ( a_lion_spots[i] != s_lion_spot && a_lion_spots[i].springpad_buddy != s_lion_spot && !isdefined( a_lion_spots[i].springpad_buddy.springpad ) )
 			{
-				if ( !isdefined( a_lion_spots[i].springpad_buddy.springpad ) )
-				{
-					SQ_2_PLACE_BALL_TRIGGER_CLEANUP( a_lion_spots[i] );
-				}
-				else if ( !isdefined( a_lion_spots[i].springpad ) )
-				{
-					SQ_2_PLACE_BALL_TRIGGER_CLEANUP( a_lion_spots[i].springpad_buddy );
-				}
-
-				pts_should_springpad_create_trigs( a_lion_spots[i] );
+				SQ_2_PLACE_BALL_TRIGGER_CLEANUP( a_lion_spots[i] );
+				level thread pts_should_springpad_create_trigs( a_lion_spots[i] );
 				break;
 			}
 		}
