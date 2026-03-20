@@ -308,6 +308,8 @@ onPlayerDisconnect( is_generator )
 place_ball_think( t_place_ball, s_lion_spot )
 {
 	t_place_ball endon( "delete" );
+	which_ball = s_lion_spot.which_ball;
+	which_generator = s_lion_spot.which_generator;
 	t_place_ball waittill( "trigger" );
 	remove = false;
 
@@ -322,16 +324,14 @@ place_ball_think( t_place_ball, s_lion_spot )
 	if ( remove )
 	{
 		s_lion_spot.springpad_buddy.springpad = undefined;
+	}
 
-		if ( !isdefined( s_lion_spot.springpad_buddy.which_ball ) )
-		{
-			s_lion_spot.springpad_buddy.which_ball = s_lion_spot.which_ball;
-			s_lion_spot.which_ball = undefined;
-			s_lion_spot.springpad_buddy.which_generator = s_lion_spot.which_generator;
-			s_lion_spot.which_generator = undefined;
-			m_ball_anim = getEnt( "trample_gen_" + s_lion_spot.script_noteworthy, "targetname" );
-			m_ball_anim.targetname = "trample_gen_" + s_lion_spot.springpad_buddy.script_noteworthy;
-		}
+	if ( isdefined( which_ball ) && isdefined( level.pts_lion ) && level.pts_lion < 4 )
+	{
+		s_lion_spot.springpad_buddy.which_ball = which_ball;
+		s_lion_spot.springpad_buddy.which_generator = which_generator;
+		m_ball_anim = getEntArray( "trample_gen_" + s_lion_spot.script_noteworthy, "targetname" )[0];
+		m_ball_anim.targetname = "trample_gen_" + s_lion_spot.springpad_buddy.script_noteworthy;
 	}
 
 	level thread pts_should_springpad_create_trigs( s_lion_spot );
