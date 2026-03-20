@@ -11,7 +11,7 @@ The following scripts allow the main Easter Egg quests to be done with any numbe
 4. Move the `zm_any_player_ee` folder to inside the `mods` folder.
 5. Start the game and load the mod through the in-game `Mods` menu.
 
-![mods menu](https://github.com/user-attachments/assets/a282836f-940d-4420-bd2d-3d8219c0fc62)
+![mods menu](https://github.com/user-attachments/assets/6d8e7786-bb60-4f65-902b-2553fb798659)
 
 #### Patches
 Can be found in `zm_any_player_ee.iwd\scripts\zm\Patches`
