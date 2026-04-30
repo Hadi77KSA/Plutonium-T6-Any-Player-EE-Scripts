@@ -14,7 +14,7 @@ Patches\buried_any_player_ee-body_fix.gsc
 - 0xA41CCE54
 - 0x568DF4F4 (1.1.1)
 
-zm_any_player_ee\scripts\zm\Patches\die_rise_extra_no_reset_floor_puzzle.gsc
+zm_any_player_ee\Patches\die_rise_extra_no_reset_floor_puzzle.gsc
 - 0xD98A6542 (1.5.1–current)
 
 zm_any_player_ee\scripts\zm\Patches\die_rise_any_player_ee-no_reset.gsc
@@ -35,7 +35,7 @@ zm_any_player_ee\scripts\zm\Patches\die_rise_any_player_ee-no_reset.gsc
 - 0xD22DE5F3
 - 0xA3DABB4E (1.1.1)
 
-zm_any_player_ee\scripts\zm\Patches\nav_autocomplete.gsc
+zm_any_player_ee\Patches\nav_autocomplete.gsc
 - 0x9D0167D6 (v2.0.0–current)
 - 0xAFF0D341 (1.5.1–v1.6.0)
 - 0x9BAD3DC9 (1.4.3–1.5.0)

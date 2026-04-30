@@ -14,7 +14,7 @@ The following scripts allow the main Easter Egg quests to be done with any numbe
 ![mods menu](https://github.com/user-attachments/assets/6d8e7786-bb60-4f65-902b-2553fb798659)
 
 #### Patches
-Can be found in `zm_any_player_ee.iwd\scripts\zm\Patches`
+Can be found in `zm_any_player_ee\Patches`
 * `die_rise_extra_no_reset_floor_puzzle.gsc` can be used along with `die_rise_any_player_ee.gsc`  
 The file goes in `scripts\zm\zm_highrise`  
 This patch makes the floor symbols not reset once an incorrect symbol is stepped on.
