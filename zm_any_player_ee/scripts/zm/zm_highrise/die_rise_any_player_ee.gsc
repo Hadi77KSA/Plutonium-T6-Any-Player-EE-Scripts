@@ -11,7 +11,7 @@
 
 #define MAXIS_PTS_1P_DEFAULT 1
 #define MAXIS_PTS_3P_DEFAULT 3
-#define MAXIS_PTS_IGNORE_BUDDY_BALL_DEFAULT true
+#define MAXIS_PTS_IGNORE_HAS_BALL_DEFAULT true
 
 init()
 {
@@ -231,7 +231,10 @@ sq_atd_drg_puzzle()
 	}
 
 #define SQ_2_PLACE_BALL_THINK(__player,__s_lion_spot) \
-	__player thread place_ball_think( __s_lion_spot.pts_putdown_trigs[__player.characterindex], __s_lion_spot );
+	if ( isdefined( __s_lion_spot.pts_putdown_trigs[__player.characterindex] ) ) \
+	{ \
+		__player thread place_ball_think( __s_lion_spot.pts_putdown_trigs[__player.characterindex], __s_lion_spot ); \
+	}
 
 #define SQ_2_TRAMPLE_STEAM_CREATE_TRIGS(__player,__s_lion_spot) \
 	pts_putdown_trigs_create_for_spot( __s_lion_spot, __player ); \
@@ -482,8 +485,8 @@ pts_should_springpad_create_trigs( s_lion_spot )
 //if the number of players is 3 or less, once a ball is picked up, gives the ability to place a 2nd ball on a set of Trample Steams that already has a ball flinging from them for the Maxis Trample Steam step
 pts_putdown_trigs_create_for_spot( s_lion_spot, player )
 {
-	currentValue = MAXIS_PTS_IGNORE_BUDDY_BALL_DEFAULT;
-	CHECK_OVERRIDE( currentValue, "any_player_ee_highrise_maxis_pts_ignore_buddy_ball", MAXIS_PTS_IGNORE_BUDDY_BALL_DEFAULT );
+	currentValue = MAXIS_PTS_IGNORE_HAS_BALL_DEFAULT;
+	CHECK_OVERRIDE( currentValue, "any_player_ee_highrise_maxis_pts_ignore_has_ball", MAXIS_PTS_IGNORE_HAS_BALL_DEFAULT );
 
 	if ( !( isdefined( s_lion_spot.which_ball ) || isdefined( s_lion_spot.springpad_buddy ) && isdefined( s_lion_spot.springpad_buddy.which_ball ) ) || !currentValue )
 		return;
