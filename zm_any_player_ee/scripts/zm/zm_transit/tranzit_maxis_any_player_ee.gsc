@@ -1,5 +1,14 @@
 #include common_scripts\utility;
 
+#define CHECK_OVERRIDE(__var,__str_override_name,__n_default_value) \
+	if ( __var != maps\mp\_utility::getDvarIntDefault( __str_override_name, __n_default_value ) ) \
+	{ \
+		__var = maps\mp\_utility::getDvarIntDefault( __str_override_name, __n_default_value ); \
+		iPrintLn( __str_override_name, ": ", __var ); \
+	}
+
+#define MAXIS_1P_DEFAULT 1
+
 init()
 {
 	if ( maps\mp\zombies\_zm_sidequests::is_sidequest_allowed( "zclassic" ) )
@@ -58,12 +67,14 @@ watchTurbineUse()
 {
 	level endon( "power_on" );
 	level endon( "transit_sidequest_achieved" );
+	currentValue = MAXIS_1P_DEFAULT;
 
 	for (;;)
 	{
 		level waittill( "turbine_deployed" );
+		CHECK_OVERRIDE( currentValue, "any_player_ee_transit_maxis_1p", MAXIS_1P_DEFAULT );
 
-		if ( level.players.size == 1 )
+		if ( level.players.size <= currentValue )
 		{
 			waittillframeend;
 			waittillframeend;
@@ -85,7 +96,7 @@ maxis_sidequest_c()
 		level maps\mp\_utility::waittill_either( "turbine_deployed", "connected" );
 		waittillframeend;
 
-		if ( level.players.size == 1 )
+		if ( level.players.size <= maps\mp\_utility::getDvarIntDefault( "any_player_ee_transit_maxis_1p", MAXIS_1P_DEFAULT ) )
 		{
 			if ( isdefined( level.players[0].buildableturbine ) )
 			{

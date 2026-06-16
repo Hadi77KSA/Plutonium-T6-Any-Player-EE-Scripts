@@ -2,6 +2,17 @@
 #include maps\mp\_utility;
 #include maps\mp\zm_highrise_sq_pts;
 
+#define CHECK_OVERRIDE(__var,__str_override_name,__n_default_value) \
+	if ( __var != maps\mp\_utility::getDvarIntDefault( __str_override_name, __n_default_value ) ) \
+	{ \
+		__var = maps\mp\_utility::getDvarIntDefault( __str_override_name, __n_default_value ); \
+		iPrintLn( __str_override_name, ": ", __var ); \
+	}
+
+#define MAXIS_PTS_1P_DEFAULT 1
+#define MAXIS_PTS_3P_DEFAULT 3
+#define MAXIS_PTS_IGNORE_BUDDY_BALL_DEFAULT true
+
 init()
 {
 	if ( maps\mp\zombies\_zm_sidequests::is_sidequest_allowed( "zclassic" ) )
@@ -107,14 +118,14 @@ sidequest_main()
 //returns either the number of players or the number 4, whichever is less. Used for specific steps
 num_player_valid( is_generator )
 {
-	n_players = level.players.size;
+	numplayers = level.players.size;
 
 	if ( isdefined( is_generator ) && !is_generator && isdefined( level.pts_ghoul ) )
 	{
-		n_players = level.pts_ghoul;
+		numplayers = level.pts_ghoul;
 	}
 
-	return int( min( n_players, 4 ) );
+	return int( min( numplayers, 4 ) );
 }
 
 atd()
@@ -130,7 +141,7 @@ atd()
 
 	sq_atd_drg_puzzle();
 
-	if ( num_player_valid() != 4 )
+	if ( maps\mp\_utility::getDvarIntDefault( "any_player_ee_highrise_drg_puzzle", num_player_valid() ) < 4 )
 	{
 		remove = false;
 
@@ -169,11 +180,14 @@ atd()
 sq_atd_elevators()
 {
 	a_elevator_flags = array( "sq_atd_elevator0", "sq_atd_elevator1", "sq_atd_elevator2", "sq_atd_elevator3" );
+	currentValue = -1;
+	CHECK_OVERRIDE( currentValue, "any_player_ee_highrise_elevators", -1 );
 
-	while ( flag( a_elevator_flags[0] ) + flag( a_elevator_flags[1] ) + flag( a_elevator_flags[2] ) + flag( a_elevator_flags[3] ) < num_player_valid() ) //checks if the players are standing on enough elevators
+	while ( flag( a_elevator_flags[0] ) + flag( a_elevator_flags[1] ) + flag( a_elevator_flags[2] ) + flag( a_elevator_flags[3] ) < ( ( currentValue > -1 ) ? currentValue : num_player_valid() ) ) //checks if the players are standing on enough elevators
 	{
 		flag_wait_any_array( a_elevator_flags );
 		wait 0.5;
+		CHECK_OVERRIDE( currentValue, "any_player_ee_highrise_elevators", -1 );
 	}
 
 	for ( i = 0; i < a_elevator_flags.size; i++ )
@@ -192,10 +206,12 @@ sq_atd_elevators()
 sq_atd_drg_puzzle()
 {
 	level endon( "sq_atd_drg_puzzle_complete" );
+	currentValue = -1;
 
 	for (;;)
 	{
-		level.sq_atd_cur_drg = 4 - num_player_valid();
+		CHECK_OVERRIDE( currentValue, "any_player_ee_highrise_drg_puzzle", -1 );
+		level.sq_atd_cur_drg = 4 - ( ( currentValue > -1 ) ? currentValue : num_player_valid() );
 		level waittill( "drg_puzzle_reset" );
 	}
 }
@@ -228,9 +244,14 @@ sq_atd_drg_puzzle()
 	}
 
 #define SQ_2_TRAMPLE_STEAM_CHECKS(__player,__s_lion_spot,__buddy_else_logic,__buddy_place_ball_think) \
-	if ( isdefined( level.pts_lion ) && level.pts_lion < 4 ) \
+	var1 = MAXIS_PTS_1P_DEFAULT; \
+	CHECK_OVERRIDE( var1, "any_player_ee_highrise_maxis_pts_1p", MAXIS_PTS_1P_DEFAULT ); \
+	var3 = MAXIS_PTS_3P_DEFAULT; \
+	CHECK_OVERRIDE( var3, "any_player_ee_highrise_maxis_pts_3p", MAXIS_PTS_3P_DEFAULT ); \
+	\
+	if ( isdefined( level.pts_lion ) && ( level.pts_lion < 4 || level.pts_lion == var1 || level.pts_lion == var3 ) ) \
 	{ \
-		if ( isdefined( __s_lion_spot.springpad_buddy.springpad ) || level.pts_lion == 1 || ( level.pts_lion == 3 && flag( "pts_2_generator_1_started" ) && !isdefined( __s_lion_spot.which_ball ) && !isdefined( __s_lion_spot.springpad_buddy.which_ball ) ) ) \
+		if ( isdefined( __s_lion_spot.springpad_buddy.springpad ) || level.pts_lion == var1 || ( level.pts_lion == var3 && flag( "pts_2_generator_1_started" ) && !isdefined( __s_lion_spot.which_ball ) && !isdefined( __s_lion_spot.springpad_buddy.which_ball ) ) ) \
 		{ \
 			if ( !isdefined( __s_lion_spot.springpad_buddy.springpad ) ) \
 			{ \
@@ -326,7 +347,7 @@ place_ball_think( t_place_ball, s_lion_spot )
 		s_lion_spot.springpad_buddy.springpad = undefined;
 	}
 
-	if ( isdefined( which_ball ) && isdefined( level.pts_lion ) && level.pts_lion < 4 )
+	if ( isdefined( which_ball ) && isdefined( level.pts_lion ) && ( level.pts_lion < 4 || level.pts_lion == maps\mp\_utility::getDvarIntDefault( "any_player_ee_highrise_maxis_pts_1p", MAXIS_PTS_1P_DEFAULT ) || level.pts_lion == maps\mp\_utility::getDvarIntDefault( "any_player_ee_highrise_maxis_pts_3p", MAXIS_PTS_3P_DEFAULT ) ) )
 	{
 		s_lion_spot.springpad_buddy.which_ball = which_ball;
 		s_lion_spot.springpad_buddy.which_generator = which_generator;
@@ -337,7 +358,7 @@ place_ball_think( t_place_ball, s_lion_spot )
 	level thread pts_should_springpad_create_trigs( s_lion_spot );
 
 	//once a player flings a ball, gives each player already carrying a ball the ability to place it on the Trample Steam placed on the other set of symbols than the ones on which the ball was flung.
-	if ( isdefined( level.pts_lion ) && level.pts_lion == 3 && isdefined( s_lion_spot.springpad_buddy.springpad ) )
+	if ( isdefined( level.pts_lion ) && level.pts_lion == maps\mp\_utility::getDvarIntDefault( "any_player_ee_highrise_maxis_pts_3p", MAXIS_PTS_3P_DEFAULT ) && isdefined( s_lion_spot.springpad_buddy.springpad ) )
 	{
 		a_lion_spots = getstructarray( "pts_lion", "targetname" );
 
@@ -357,10 +378,12 @@ place_ball_think( t_place_ball, s_lion_spot )
 wait_for_all_springpads_placed()
 {
 	a_spots = getstructarray( "pts_ghoul", "targetname" );
+	currentValue = -1;
 
 	while ( !flag( "pts_1_springpads_placed" ) )
 	{
 		is_clear = 0;
+		CHECK_OVERRIDE( currentValue, "any_player_ee_highrise_rich_pts", -1 );
 
 		for ( i = 0; i < a_spots.size; i++ )
 		{
@@ -368,7 +391,7 @@ wait_for_all_springpads_placed()
 				is_clear++;
 		}
 
-		if ( is_clear <= 4 - num_player_valid( 0 ) )
+		if ( is_clear <= 4 - ( ( currentValue > -1 ) ? currentValue : num_player_valid( 0 ) ) )
 			flag_set( "pts_1_springpads_placed" );
 
 		wait 1;
@@ -459,7 +482,10 @@ pts_should_springpad_create_trigs( s_lion_spot )
 //if the number of players is 3 or less, once a ball is picked up, gives the ability to place a 2nd ball on a set of Trample Steams that already has a ball flinging from them for the Maxis Trample Steam step
 pts_putdown_trigs_create_for_spot( s_lion_spot, player )
 {
-	if ( !( isdefined( s_lion_spot.which_ball ) || isdefined( s_lion_spot.springpad_buddy ) && isdefined( s_lion_spot.springpad_buddy.which_ball ) ) )
+	currentValue = MAXIS_PTS_IGNORE_BUDDY_BALL_DEFAULT;
+	CHECK_OVERRIDE( currentValue, "any_player_ee_highrise_maxis_pts_ignore_buddy_ball", MAXIS_PTS_IGNORE_BUDDY_BALL_DEFAULT );
+
+	if ( !( isdefined( s_lion_spot.which_ball ) || isdefined( s_lion_spot.springpad_buddy ) && isdefined( s_lion_spot.springpad_buddy.which_ball ) ) || !currentValue )
 		return;
 
 	t_place_ball = sq_pts_create_use_trigger( s_lion_spot.origin, 16, 70, &"ZM_HIGHRISE_SQ_PUTDOWN_BALL" );

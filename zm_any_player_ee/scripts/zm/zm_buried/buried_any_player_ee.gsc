@@ -4,6 +4,17 @@
 #include maps\mp\zm_buried_sq_ip;
 #include maps\mp\zombies\_zm_utility;
 
+#define CHECK_OVERRIDE(__var,__str_override_name,__n_default_value) \
+	if ( __var != maps\mp\_utility::getDvarIntDefault( __str_override_name, __n_default_value ) ) \
+	{ \
+		__var = maps\mp\_utility::getDvarIntDefault( __str_override_name, __n_default_value ); \
+		iPrintLn( __str_override_name, ": ", __var ); \
+	}
+
+#define MAXIS_CTW_DEFAULT 2
+#define MAXIS_IP_DEFAULT 2
+#define METAGAME_DEFAULT 4
+
 init()
 {
 	if ( maps\mp\zombies\_zm_sidequests::is_sidequest_allowed( "zclassic" ) )
@@ -80,8 +91,10 @@ ctw_max_wisp_enery_watch()
 health_add()
 {
 	self endon( "death" );
+	currentValue = MAXIS_CTW_DEFAULT;
+	CHECK_OVERRIDE( currentValue, "any_player_ee_buried_maxis_ctw", MAXIS_CTW_DEFAULT );
 
-	if ( level.players.size < 3 )
+	if ( level.players.size <= currentValue )
 	{
 		for (;;)
 		{
@@ -127,12 +140,14 @@ tpo()
 sq_tpo_check_players_in_time_bomb_volume( e_volume )
 {
 	level endon( "sq_tpo_stop_checking_time_bomb_volume" );
+	currentValue = -1;
 
 	for (;;)
 	{
 		flag_waitopen( "sq_tpo_players_in_position_for_time_warp" );
+		CHECK_OVERRIDE( currentValue, "any_player_ee_buried_rich_tpo", -1 );
 
-		if ( get_players().size < 4 && _are_all_players_in_time_bomb_volume( e_volume ) )
+		if ( ( get_players().size < 4 || currentValue > -1 ) && _are_all_players_in_time_bomb_volume( e_volume ) )
 		{
 			level._time_bomb.functionality_override = 1;
 			flag_set( "sq_tpo_players_in_position_for_time_warp" );
@@ -147,7 +162,7 @@ sq_tpo_check_players_in_time_bomb_volume( e_volume )
 _are_all_players_in_time_bomb_volume( e_volume )
 {
 	a_players = get_players();
-	n_required_players = a_players.size;
+	n_required_players = maps\mp\_utility::getDvarIntDefault( "any_player_ee_buried_rich_tpo", a_players.size );
 	n_players_in_position = 0;
 
 	for ( i = 0; i < a_players.size; i++ )
@@ -190,8 +205,10 @@ sq_bp_start_puzzle_lights()
 	}
 
 	level.t_start waittill( "trigger" );
+	currentValue = MAXIS_IP_DEFAULT;
+	CHECK_OVERRIDE( currentValue, "any_player_ee_buried_maxis_ip", MAXIS_IP_DEFAULT );
 
-	if ( level.players.size < 3 )
+	if ( level.players.size <= currentValue )
 	{
 		level delay_notify( "sq_bp_timeout", 0.05 );
 		thread deleteTrigger();
@@ -263,8 +280,10 @@ ows_target_delete_timer()
 {
 	level endon( "sndEndOWSMusic" );
 	waittillframeend;
+	currentValue = -1;
+	CHECK_OVERRIDE( currentValue, "any_player_ee_buried_ows", -1 );
 
-	switch ( level.players.size )
+	switch ( ( currentValue > -1 ) ? currentValue : level.players.size )
 	{
 		case 1:
 			zmb_sq_target_flip = 64; // Total (84) - ( Candy Shop (20) )
@@ -326,6 +345,8 @@ sq_metagame()
 	waittillframeend;
 	players = get_players();
 	player_count = players.size;
+	currentValue = METAGAME_DEFAULT;
+	CHECK_OVERRIDE( currentValue, "any_player_ee_buried_metagame", METAGAME_DEFAULT );
 
 	for ( n_player = 0; n_player < player_count; n_player++ )
 	{
@@ -337,7 +358,7 @@ sq_metagame()
 				n_stat_nav_value = players[n_player] maps\mp\zombies\_zm_stats::get_global_stat( a_stat_nav[n_stat] );
 			}
 
-			if ( n_player < 4 ) //in case of more than 4 players, only checks the completion progress of 4 players
+			if ( n_player < currentValue ) //in case of more than 4 players, only checks the completion progress of 4 players
 			{
 				if ( n_stat_value == 1 )
 				{
@@ -358,7 +379,7 @@ sq_metagame()
 		}
 	}
 
-	if ( level.n_metagame_machine_lights_on != 12 && n_metagame_machine_lights_on == int( min( player_count, 4 ) ) * 3 ) //changed to adapt to the number of players
+	if ( level.n_metagame_machine_lights_on != 12 && n_metagame_machine_lights_on == int( min( player_count, currentValue ) ) * 3 ) //changed to adapt to the number of players
 	{
 		if ( is_blue_on && is_orange_on )
 			return;
