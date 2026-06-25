@@ -95,6 +95,23 @@ For more than 4 players, the mod will only check the player progress that is sho
 ### Origins
 Spawns stone tablets near the challenge boxes for players to grab the One Inch Punch from. This allows for matches of 5+ players to be able to obtain the One Inch Punch to complete *Step 6: Wield a Fist of Iron* of the Easter Egg.
 
+### Configuration Options
+| Name | Description |
+| --- | :--- |
+| `any_player_ee_transit_maxis_1p` | (0-18) Max number of players for which solo behaviour will be in effect. Default: 1. Vanilla: 0 |
+| `any_player_ee_highrise_nav` | (0-1) Automatically build the Nav Table without having previously built it. Default: 1. Vanilla: 0 |
+| `any_player_ee_highrise_elevators` | (0-4) Min number of required elevators. Default: -1. Vanilla: 4 |
+| `any_player_ee_highrise_drg_puzzle` | (0-4) Min number of required floor puzzle symbols. Default: -1. Vanilla: 4 |
+| `any_player_ee_highrise_maxis_pts_1p` | (0-18) Specific number of players for which Maxis Trample Steams solo behaviour will be in effect. Default: 1. Vanilla: 0 |
+| `any_player_ee_highrise_maxis_pts_3p` | (0-18) Specific number of players for which Maxis Trample Steams 3p behaviour will be in effect. Default: 3. Vanilla: 0 |
+| `any_player_ee_highrise_maxis_pts_ignore_has_ball` | (0-1) Ignore the existence of a ball on the Maxis Trample Steam(s) when creating ball place trigs. Default: 1. Vanilla: 0 |
+| `any_player_ee_highrise_rich_pts` | (0-4) Min number of required Trample Steams for Richtofen. Default: -1. Vanilla: 4 |
+| `any_player_ee_buried_maxis_ctw` | (0-18) Max number of players for which Maxis wisp health auto-regeneration will be in effect. Default: 2. Vanilla: 0 |
+| `any_player_ee_buried_maxis_ip` | (0-18) Max number of players for which Maxis bells time limit removal will be in effect. Default: 2. Vanilla: 0 |
+| `any_player_ee_buried_rich_tpo` | (0-18) Specific number of players required near the Guillotine to activate Richtofen round infinity. Default: -1. Vanilla: 4 |
+| `any_player_ee_buried_ows` | (1-4) Force selection of the special required target amounts for sharpshooter. Only 1-2 have reduced targets, while other values require all targets. Default: -1. Vanilla: 4 |
+| `any_player_ee_buried_metagame` | (0-18) Max number of players whose completions will be checked for the Super Easter Egg. Default: 4. Vanilla: -1 |
+
 ## Alternative Mods With Extra Features + Other Maps
 - TranZit Extra: makes the EMP step on the Richtofen quest on solo only require 2 EMPs instead of 4.  
 [tranzit_extra_richtofen_solo.gsc](https://github.com/Hadi77KSA/Plutonium-T6-Any-Player-EE-Extra-Scripts/releases/latest/download/tranzit_extra_richtofen_solo.gsc)
@@ -113,15 +130,12 @@ To install, follow the steps in the **Individual Files** alternative installatio
 
 ## FAQ
 ### Q: Do I/we need all of these mods to do all the EEs?
-A: Depends on the number of players and which maps and side you choose. The host is required to have the mods installed. The following shows the required files:
+A: Depends on the number of players and which maps and side you choose. The host is required to have the mods installed. The following shows the required files (which are contained in `zm_any_player_ee.iwd` and get automatically loaded from it):
   - 1p:-
     - TranZit Maxis: `tranzit_maxis_any_player_ee.gsc`
     - Die Rise: `die_rise_any_player_ee.gsc`
     - Buried and Super: `buried_any_player_ee.gsc`
-  - 2p:-
-    - Die Rise: `die_rise_any_player_ee.gsc`
-    - Buried and Super: `buried_any_player_ee.gsc`
-  - 3p:-
+  - 2p/3p:-
     - Die Rise: `die_rise_any_player_ee.gsc`
     - Buried Richtofen and Super: `buried_any_player_ee.gsc`
   - 4p:- None
