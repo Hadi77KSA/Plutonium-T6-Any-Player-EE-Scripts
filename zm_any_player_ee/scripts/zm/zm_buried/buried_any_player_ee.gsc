@@ -283,17 +283,24 @@ ows_target_delete_timer()
 	currentValue = -1;
 	CHECK_OVERRIDE( currentValue, "any_player_ee_buried_ows", -1 );
 
-	switch ( ( currentValue > -1 ) ? currentValue : level.players.size )
+	if ( currentValue > -1 )
 	{
-		case 1:
-			zmb_sq_target_flip = 64; // Total (84) - ( Candy Shop (20) )
-			break;
-		case 2:
-			zmb_sq_target_flip = 45; // Total (84) - ( Candy Shop (20) + Saloon (19) )
-			break;
-		default: //All 4 areas of the map
-			zmb_sq_target_flip = 0;
-			break;
+		zmb_sq_target_flip = 84 - currentValue;
+	}
+	else
+	{
+		switch ( level.players.size )
+		{
+			case 1:
+				zmb_sq_target_flip = 64; // Total (84) - ( Candy Shop (20) )
+				break;
+			case 2:
+				zmb_sq_target_flip = 45; // Total (84) - ( Candy Shop (20) + Saloon (19) )
+				break;
+			default: //All 4 areas of the map
+				zmb_sq_target_flip = 0;
+				break;
+		}
 	}
 
 	while ( zmb_sq_target_flip > 0 )

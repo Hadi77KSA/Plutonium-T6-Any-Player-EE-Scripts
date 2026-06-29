@@ -109,7 +109,7 @@ Spawns stone tablets near the challenge boxes for players to grab the One Inch P
 | `any_player_ee_buried_maxis_ctw` | (0-18) Max number of players for which Maxis wisp health auto-regeneration will be in effect. Default: 2. Vanilla: 0 |
 | `any_player_ee_buried_maxis_ip` | (0-18) Max number of players for which Maxis bells time limit removal will be in effect. Default: 2. Vanilla: 0 |
 | `any_player_ee_buried_rich_tpo` | (0-18) Specific number of players required near the Guillotine to activate Richtofen round infinity. Default: -1. Vanilla: 4 |
-| `any_player_ee_buried_ows` | (1-4) Force selection of the special required target amounts for sharpshooter. Only 1-2 have reduced targets, while other values require all targets. Default: -1. Vanilla: 4 |
+| `any_player_ee_buried_ows` | (0-84) Min number of required targets for sharpshooter. Default: -1. Vanilla: 84 |
 | `any_player_ee_buried_metagame` | (0-18) Max number of players whose completions will be checked for the Super Easter Egg. Default: 4. Vanilla: -1 |
 
 ## Alternative Mods With Extra Features + Other Maps
