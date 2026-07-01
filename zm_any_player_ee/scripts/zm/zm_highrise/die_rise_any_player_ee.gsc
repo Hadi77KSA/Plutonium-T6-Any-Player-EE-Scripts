@@ -9,9 +9,12 @@
 		iPrintLn( __str_override_name, ": ", __var ); \
 	}
 
+#define ELEVATORS_DEFAULT -1
+#define DRG_PUZZLE_DEFAULT -1
 #define MAXIS_PTS_1P_DEFAULT 1
 #define MAXIS_PTS_3P_DEFAULT 3
 #define MAXIS_PTS_IGNORE_HAS_BALL_DEFAULT true
+#define RICH_PTS_DEFAULT -1
 
 init()
 {
@@ -180,14 +183,14 @@ atd()
 sq_atd_elevators()
 {
 	a_elevator_flags = array( "sq_atd_elevator0", "sq_atd_elevator1", "sq_atd_elevator2", "sq_atd_elevator3" );
-	currentValue = -1;
-	CHECK_OVERRIDE( currentValue, "any_player_ee_highrise_elevators", -1 );
+	currentValue = ELEVATORS_DEFAULT;
+	CHECK_OVERRIDE( currentValue, "any_player_ee_highrise_elevators", ELEVATORS_DEFAULT );
 
 	while ( flag( a_elevator_flags[0] ) + flag( a_elevator_flags[1] ) + flag( a_elevator_flags[2] ) + flag( a_elevator_flags[3] ) < ( ( currentValue > -1 ) ? currentValue : num_player_valid() ) ) //checks if the players are standing on enough elevators
 	{
 		flag_wait_any_array( a_elevator_flags );
 		wait 0.5;
-		CHECK_OVERRIDE( currentValue, "any_player_ee_highrise_elevators", -1 );
+		CHECK_OVERRIDE( currentValue, "any_player_ee_highrise_elevators", ELEVATORS_DEFAULT );
 	}
 
 	for ( i = 0; i < a_elevator_flags.size; i++ )
@@ -206,11 +209,11 @@ sq_atd_elevators()
 sq_atd_drg_puzzle()
 {
 	level endon( "sq_atd_drg_puzzle_complete" );
-	currentValue = -1;
+	currentValue = DRG_PUZZLE_DEFAULT;
 
 	for (;;)
 	{
-		CHECK_OVERRIDE( currentValue, "any_player_ee_highrise_drg_puzzle", -1 );
+		CHECK_OVERRIDE( currentValue, "any_player_ee_highrise_drg_puzzle", DRG_PUZZLE_DEFAULT );
 		level.sq_atd_cur_drg = 4 - ( ( currentValue > -1 ) ? currentValue : num_player_valid() );
 		level waittill( "drg_puzzle_reset" );
 	}
@@ -381,12 +384,12 @@ place_ball_think( t_place_ball, s_lion_spot )
 wait_for_all_springpads_placed()
 {
 	a_spots = getstructarray( "pts_ghoul", "targetname" );
-	currentValue = -1;
+	currentValue = RICH_PTS_DEFAULT;
 
 	while ( !flag( "pts_1_springpads_placed" ) )
 	{
 		is_clear = 0;
-		CHECK_OVERRIDE( currentValue, "any_player_ee_highrise_rich_pts", -1 );
+		CHECK_OVERRIDE( currentValue, "any_player_ee_highrise_rich_pts", RICH_PTS_DEFAULT );
 
 		for ( i = 0; i < a_spots.size; i++ )
 		{

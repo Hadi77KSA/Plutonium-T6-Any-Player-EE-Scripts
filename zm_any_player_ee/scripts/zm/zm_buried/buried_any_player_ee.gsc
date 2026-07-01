@@ -13,6 +13,8 @@
 
 #define MAXIS_CTW_DEFAULT 2
 #define MAXIS_IP_DEFAULT 2
+#define RICH_TPO_DEFAULT -1
+#define OWS_DEFAULT -1
 #define METAGAME_DEFAULT 4
 
 init()
@@ -140,12 +142,12 @@ tpo()
 sq_tpo_check_players_in_time_bomb_volume( e_volume )
 {
 	level endon( "sq_tpo_stop_checking_time_bomb_volume" );
-	currentValue = -1;
+	currentValue = RICH_TPO_DEFAULT;
 
 	for (;;)
 	{
 		flag_waitopen( "sq_tpo_players_in_position_for_time_warp" );
-		CHECK_OVERRIDE( currentValue, "any_player_ee_buried_rich_tpo", -1 );
+		CHECK_OVERRIDE( currentValue, "any_player_ee_buried_rich_tpo", RICH_TPO_DEFAULT );
 
 		if ( ( get_players().size < 4 || currentValue > -1 ) && _are_all_players_in_time_bomb_volume( e_volume ) )
 		{
@@ -280,8 +282,8 @@ ows_target_delete_timer()
 {
 	level endon( "sndEndOWSMusic" );
 	waittillframeend;
-	currentValue = -1;
-	CHECK_OVERRIDE( currentValue, "any_player_ee_buried_ows", -1 );
+	currentValue = OWS_DEFAULT;
+	CHECK_OVERRIDE( currentValue, "any_player_ee_buried_ows", OWS_DEFAULT );
 
 	if ( currentValue > -1 )
 	{
