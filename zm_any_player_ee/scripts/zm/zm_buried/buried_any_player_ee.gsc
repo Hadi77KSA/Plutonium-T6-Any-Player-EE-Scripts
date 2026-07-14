@@ -4,7 +4,7 @@
 #include maps\mp\zm_buried_sq_ip;
 #include maps\mp\zombies\_zm_utility;
 
-#define CHECK_OVERRIDE(__var,__str_override_name,__n_default_value) \
+#define CHECK_OVERRIDE(__str_override_name,__n_default_value,__var) \
 	if ( __var != maps\mp\_utility::getDvarIntDefault( __str_override_name, __n_default_value ) ) \
 	{ \
 		__var = maps\mp\_utility::getDvarIntDefault( __str_override_name, __n_default_value ); \
@@ -94,7 +94,7 @@ health_add()
 {
 	self endon( "death" );
 	currentValue = MAXIS_CTW_DEFAULT;
-	CHECK_OVERRIDE( currentValue, "any_player_ee_buried_maxis_ctw", MAXIS_CTW_DEFAULT );
+	CHECK_OVERRIDE( "any_player_ee_buried_maxis_ctw", MAXIS_CTW_DEFAULT, currentValue );
 
 	if ( level.players.size <= currentValue )
 	{
@@ -147,7 +147,7 @@ sq_tpo_check_players_in_time_bomb_volume( e_volume )
 	for (;;)
 	{
 		flag_waitopen( "sq_tpo_players_in_position_for_time_warp" );
-		CHECK_OVERRIDE( currentValue, "any_player_ee_buried_rich_tpo", RICH_TPO_DEFAULT );
+		CHECK_OVERRIDE( "any_player_ee_buried_rich_tpo", RICH_TPO_DEFAULT, currentValue );
 
 		if ( ( get_players().size < 4 || currentValue > -1 ) && _are_all_players_in_time_bomb_volume( e_volume ) )
 		{
@@ -208,7 +208,7 @@ sq_bp_start_puzzle_lights()
 
 	level.t_start waittill( "trigger" );
 	currentValue = MAXIS_IP_DEFAULT;
-	CHECK_OVERRIDE( currentValue, "any_player_ee_buried_maxis_ip", MAXIS_IP_DEFAULT );
+	CHECK_OVERRIDE( "any_player_ee_buried_maxis_ip", MAXIS_IP_DEFAULT, currentValue );
 
 	if ( level.players.size <= currentValue )
 	{
@@ -283,7 +283,7 @@ ows_target_delete_timer()
 	level endon( "sndEndOWSMusic" );
 	waittillframeend;
 	currentValue = OWS_DEFAULT;
-	CHECK_OVERRIDE( currentValue, "any_player_ee_buried_ows", OWS_DEFAULT );
+	CHECK_OVERRIDE( "any_player_ee_buried_ows", OWS_DEFAULT, currentValue );
 
 	if ( currentValue > -1 )
 	{
@@ -355,7 +355,7 @@ sq_metagame()
 	players = get_players();
 	player_count = players.size;
 	currentValue = METAGAME_DEFAULT;
-	CHECK_OVERRIDE( currentValue, "any_player_ee_buried_metagame", METAGAME_DEFAULT );
+	CHECK_OVERRIDE( "any_player_ee_buried_metagame", METAGAME_DEFAULT, currentValue );
 
 	for ( n_player = 0; n_player < player_count; n_player++ )
 	{

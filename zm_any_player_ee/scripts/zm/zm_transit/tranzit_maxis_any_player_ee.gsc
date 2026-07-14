@@ -1,6 +1,6 @@
 #include common_scripts\utility;
 
-#define CHECK_OVERRIDE(__var,__str_override_name,__n_default_value) \
+#define CHECK_OVERRIDE(__str_override_name,__n_default_value,__var) \
 	if ( __var != maps\mp\_utility::getDvarIntDefault( __str_override_name, __n_default_value ) ) \
 	{ \
 		__var = maps\mp\_utility::getDvarIntDefault( __str_override_name, __n_default_value ); \
@@ -72,7 +72,7 @@ watchTurbineUse()
 	for (;;)
 	{
 		level waittill( "turbine_deployed" );
-		CHECK_OVERRIDE( currentValue, "any_player_ee_transit_maxis_1p", MAXIS_1P_DEFAULT );
+		CHECK_OVERRIDE( "any_player_ee_transit_maxis_1p", MAXIS_1P_DEFAULT, currentValue );
 
 		if ( level.players.size <= currentValue )
 		{

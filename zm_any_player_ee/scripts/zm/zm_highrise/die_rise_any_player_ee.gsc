@@ -2,7 +2,7 @@
 #include maps\mp\_utility;
 #include maps\mp\zm_highrise_sq_pts;
 
-#define CHECK_OVERRIDE(__var,__str_override_name,__n_default_value) \
+#define CHECK_OVERRIDE(__str_override_name,__n_default_value,__var) \
 	if ( __var != maps\mp\_utility::getDvarIntDefault( __str_override_name, __n_default_value ) ) \
 	{ \
 		__var = maps\mp\_utility::getDvarIntDefault( __str_override_name, __n_default_value ); \
@@ -184,13 +184,13 @@ sq_atd_elevators()
 {
 	a_elevator_flags = array( "sq_atd_elevator0", "sq_atd_elevator1", "sq_atd_elevator2", "sq_atd_elevator3" );
 	currentValue = ELEVATORS_DEFAULT;
-	CHECK_OVERRIDE( currentValue, "any_player_ee_highrise_elevators", ELEVATORS_DEFAULT );
+	CHECK_OVERRIDE( "any_player_ee_highrise_elevators", ELEVATORS_DEFAULT, currentValue );
 
 	while ( flag( a_elevator_flags[0] ) + flag( a_elevator_flags[1] ) + flag( a_elevator_flags[2] ) + flag( a_elevator_flags[3] ) < ( ( currentValue > -1 ) ? currentValue : num_player_valid() ) ) //checks if the players are standing on enough elevators
 	{
 		flag_wait_any_array( a_elevator_flags );
 		wait 0.5;
-		CHECK_OVERRIDE( currentValue, "any_player_ee_highrise_elevators", ELEVATORS_DEFAULT );
+		CHECK_OVERRIDE( "any_player_ee_highrise_elevators", ELEVATORS_DEFAULT, currentValue );
 	}
 
 	for ( i = 0; i < a_elevator_flags.size; i++ )
@@ -213,7 +213,7 @@ sq_atd_drg_puzzle()
 
 	for (;;)
 	{
-		CHECK_OVERRIDE( currentValue, "any_player_ee_highrise_drg_puzzle", DRG_PUZZLE_DEFAULT );
+		CHECK_OVERRIDE( "any_player_ee_highrise_drg_puzzle", DRG_PUZZLE_DEFAULT, currentValue );
 		level.sq_atd_cur_drg = 4 - ( ( currentValue > -1 ) ? currentValue : num_player_valid() );
 		level waittill( "drg_puzzle_reset" );
 	}
@@ -251,9 +251,9 @@ sq_atd_drg_puzzle()
 
 #define SQ_2_TRAMPLE_STEAM_CHECKS(__player,__s_lion_spot,__buddy_else_logic,__buddy_place_ball_think) \
 	var1 = MAXIS_PTS_1P_DEFAULT; \
-	CHECK_OVERRIDE( var1, "any_player_ee_highrise_maxis_pts_1p", MAXIS_PTS_1P_DEFAULT ); \
+	CHECK_OVERRIDE( "any_player_ee_highrise_maxis_pts_1p", MAXIS_PTS_1P_DEFAULT, var1 ); \
 	var3 = MAXIS_PTS_3P_DEFAULT; \
-	CHECK_OVERRIDE( var3, "any_player_ee_highrise_maxis_pts_3p", MAXIS_PTS_3P_DEFAULT ); \
+	CHECK_OVERRIDE( "any_player_ee_highrise_maxis_pts_3p", MAXIS_PTS_3P_DEFAULT, var3 ); \
 	\
 	if ( isdefined( level.pts_lion ) && ( level.pts_lion < 4 || level.pts_lion == var1 || level.pts_lion == var3 ) ) \
 	{ \
@@ -389,7 +389,7 @@ wait_for_all_springpads_placed()
 	while ( !flag( "pts_1_springpads_placed" ) )
 	{
 		is_clear = 0;
-		CHECK_OVERRIDE( currentValue, "any_player_ee_highrise_rich_pts", RICH_PTS_DEFAULT );
+		CHECK_OVERRIDE( "any_player_ee_highrise_rich_pts", RICH_PTS_DEFAULT, currentValue );
 
 		for ( i = 0; i < a_spots.size; i++ )
 		{
@@ -489,7 +489,7 @@ pts_should_springpad_create_trigs( s_lion_spot )
 pts_putdown_trigs_create_for_spot( s_lion_spot, player )
 {
 	currentValue = MAXIS_PTS_IGNORE_HAS_BALL_DEFAULT;
-	CHECK_OVERRIDE( currentValue, "any_player_ee_highrise_maxis_pts_ignore_has_ball", MAXIS_PTS_IGNORE_HAS_BALL_DEFAULT );
+	CHECK_OVERRIDE( "any_player_ee_highrise_maxis_pts_ignore_has_ball", MAXIS_PTS_IGNORE_HAS_BALL_DEFAULT, currentValue );
 
 	if ( !( isdefined( s_lion_spot.which_ball ) || isdefined( s_lion_spot.springpad_buddy ) && isdefined( s_lion_spot.springpad_buddy.which_ball ) ) || !currentValue )
 		return;
