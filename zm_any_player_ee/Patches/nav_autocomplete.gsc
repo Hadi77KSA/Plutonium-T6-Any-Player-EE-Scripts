@@ -15,10 +15,10 @@ func()
 	common_scripts\utility::flag_wait( "initial_players_connected" );
 	stat_names = array( "sq_transit_started", "sq_highrise_started", "sq_buried_started", "navcard_applied_zm_transit", "navcard_applied_zm_highrise", "navcard_applied_zm_buried" );
 
-	for ( i = 0; i < level.players.size; i++ )
+	for ( i = level.players.size - 1; i >= 0; i-- )
 	{
 		// Handles building the NAV Tables and applying the Navcards
-		for ( j = 0; j < stat_names.size; j++ )
+		for ( j = stat_names.size - 1; j >= 0; j-- )
 		{
 			if ( !level.players[i] maps\mp\zombies\_zm_stats::get_global_stat( stat_names[j] ) )
 			{

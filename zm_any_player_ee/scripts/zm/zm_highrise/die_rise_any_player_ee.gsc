@@ -156,7 +156,7 @@ atd()
 
 		a_puzzle_trigs = getentarray( "trig_atd_drg_puzzle", "targetname" );
 
-		for ( i = 0; i < a_puzzle_trigs.size; i++ )
+		for ( i = a_puzzle_trigs.size - 1; i >= 0; i-- )
 		{
 			if ( !a_puzzle_trigs[i].drg_active )
 			{
@@ -193,7 +193,7 @@ sq_atd_elevators()
 		CHECK_OVERRIDE( "any_player_ee_highrise_elevators", ELEVATORS_DEFAULT, currentValue );
 	}
 
-	for ( i = 0; i < a_elevator_flags.size; i++ )
+	for ( i = a_elevator_flags.size - 1; i >= 0; i-- )
 	{
 		if ( !flag( a_elevator_flags[i] ) )
 		{
@@ -281,7 +281,7 @@ sq_1()
 	players = get_players();
 	level.pts_ghoul = players.size;
 
-	for ( i = 0; i < players.size; i++ )
+	for ( i = players.size - 1; i >= 0; i-- )
 	{
 		players[i] thread onPlayerDisconnect( 0 );
 	}
@@ -296,7 +296,7 @@ sq_2()
 	players = get_players();
 	level.pts_lion = players.size;
 
-	for ( i = 0; i < players.size; i++ )
+	for ( i = players.size - 1; i >= 0; i-- )
 	{
 		players[i] thread onPlayerDisconnect( 1 );
 		players[i] thread pts_watch_springpad_use();
@@ -368,7 +368,7 @@ place_ball_think( t_place_ball, s_lion_spot )
 	{
 		a_lion_spots = getstructarray( "pts_lion", "targetname" );
 
-		for ( i = 0; i < a_lion_spots.size; i++ )
+		for ( i = a_lion_spots.size - 1; i >= 0; i-- )
 		{
 			if ( a_lion_spots[i] != s_lion_spot && a_lion_spots[i].springpad_buddy != s_lion_spot && !isdefined( a_lion_spots[i].springpad_buddy.springpad ) )
 			{

@@ -31,7 +31,7 @@ box_footprint_think()
 {
 	array_wait( getentarray( "foot_box", "script_noteworthy" ), "death" );
 
-	for ( i = 0; i < level.a_uts_challenge_boxes.size; i++ )
+	for ( i = level.a_uts_challenge_boxes.size - 1; i >= 0; i-- )
 	{
 		s_unitrigger_stub = spawnstruct();
 		s_unitrigger_stub.origin = level.a_uts_challenge_boxes[i].origin + ( -72, 72, 50 );
