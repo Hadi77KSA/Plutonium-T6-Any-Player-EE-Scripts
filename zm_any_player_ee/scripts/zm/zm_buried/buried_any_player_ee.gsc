@@ -167,7 +167,7 @@ _are_all_players_in_time_bomb_volume( e_volume )
 	n_required_players = maps\mp\_utility::getDvarIntDefault( "any_player_ee_buried_rich_tpo", a_players.size );
 	n_players_in_position = 0;
 
-	for ( i = 0; i < a_players.size; i++ )
+	for ( i = a_players.size - 1; i >= 0; i-- )
 	{
 		if ( a_players[i] istouching( e_volume ) )
 			n_players_in_position++;
@@ -352,14 +352,20 @@ sq_metagame()
 	n_metagame_machine_lights_on = 0;
 	flag_wait( "start_zombie_round_logic" );
 	waittillframeend;
+
+	if ( level.n_metagame_machine_lights_on == 12 )
+	{
+		return;
+	}
+
 	players = get_players();
 	player_count = players.size;
 	currentValue = METAGAME_DEFAULT;
 	CHECK_OVERRIDE( "any_player_ee_buried_metagame", METAGAME_DEFAULT, currentValue );
 
-	for ( n_player = 0; n_player < player_count; n_player++ )
+	for ( n_player = player_count - 1; n_player >= 0; n_player-- )
 	{
-		for ( n_stat = 0; n_stat < a_stat.size; n_stat++ )
+		for ( n_stat = a_stat.size - 1; n_stat >= 0; n_stat-- )
 		{
 			if ( isdefined( players[n_player] ) )
 			{
@@ -388,7 +394,7 @@ sq_metagame()
 		}
 	}
 
-	if ( level.n_metagame_machine_lights_on != 12 && n_metagame_machine_lights_on == int( min( player_count, currentValue ) ) * 3 ) //changed to adapt to the number of players
+	if ( n_metagame_machine_lights_on == int( min( player_count, currentValue ) ) * 3 ) //changed to adapt to the number of players
 	{
 		if ( is_blue_on && is_orange_on )
 			return;

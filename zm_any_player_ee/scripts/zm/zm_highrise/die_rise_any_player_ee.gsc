@@ -56,7 +56,7 @@ spawn_navcomputer()
 	spawn_navcomputer = false;
 	players = get_players();
 
-	for ( i = 0; i < players.size; i++ )
+	for ( i = players.size - 1; i >= 0; i-- )
 	{
 		if ( !players[i] maps\mp\zombies\_zm_stats::get_global_stat( "sq_highrise_started" ) )
 		{
@@ -391,7 +391,7 @@ wait_for_all_springpads_placed()
 		is_clear = 0;
 		CHECK_OVERRIDE( "any_player_ee_highrise_rich_pts", RICH_PTS_DEFAULT, currentValue );
 
-		for ( i = 0; i < a_spots.size; i++ )
+		for ( i = a_spots.size - 1; i >= 0; i-- )
 		{
 			if ( !isdefined( a_spots[i].springpad ) )
 				is_clear++;
@@ -424,7 +424,7 @@ is_springpad_in_place( m_springpad )
 {
 	a_lion_spots = getstructarray( "pts_lion", "targetname" );
 
-	for ( i = 0; i < a_lion_spots.size; i++ )
+	for ( i = a_lion_spots.size - 1; i >= 0; i-- )
 	{
 		if ( distance2dsquared( m_springpad.origin, a_lion_spots[i].origin ) < 1024 )
 		{
@@ -459,7 +459,7 @@ pts_should_player_create_trigs( player )
 	waittillframeend;
 	a_lion_spots = getstructarray( "pts_lion", "targetname" );
 
-	for ( i = 0; i < a_lion_spots.size; i++ )
+	for ( i = a_lion_spots.size - 1; i >= 0; i-- )
 	{
 		if ( isdefined( a_lion_spots[i].springpad ) )
 		{
@@ -475,7 +475,7 @@ pts_should_springpad_create_trigs( s_lion_spot )
 
 	if ( isdefined( s_lion_spot.springpad ) && isdefined( s_lion_spot.springpad_buddy ) )
 	{
-		for ( i = 0; i < level.players.size; i++ )
+		for ( i = level.players.size - 1; i >= 0; i-- )
 		{
 			if ( isdefined( level.players[i].zm_sq_has_ball ) && level.players[i].zm_sq_has_ball )
 			{
