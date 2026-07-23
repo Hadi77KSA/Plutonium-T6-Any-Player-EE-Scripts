@@ -89,7 +89,6 @@ maxis_sidequest_c()
 	flag_waitopen( "power_on" );
 	level endon( "power_on" );
 	level endon( "transit_sidequest_achieved" );
-	screech_zones = getstructarray( "screecher_escape", "targetname" );
 
 	for (;;)
 	{
@@ -98,25 +97,16 @@ maxis_sidequest_c()
 
 		if ( level.players.size <= maps\mp\_utility::getDvarIntDefault( "any_player_ee_transit_maxis_1p", MAXIS_1P_DEFAULT ) )
 		{
-			if ( isdefined( level.players[0].buildableturbine ) )
+			if ( isdefined( level.sq_progress["maxis"]["C_turbine_1"] ) )
 			{
-				for ( x = 0; x < screech_zones.size; x++ )
+				if ( !isdefined( level.sq_progress["maxis"]["C_turbine_2"] ) )
 				{
-					zone = screech_zones[x];
-
-					if ( distancesquared( level.players[0].buildableturbine.origin, zone.origin ) < zone.radius * zone.radius )
-					{
-						if ( !isdefined( level.sq_progress["maxis"]["C_turbine_1"] ) )
-						{
-							level.sq_progress["maxis"]["C_turbine_1"] = level.players[0].buildableturbine;
-						}
-						else
-						{
-							level.sq_progress["maxis"]["C_turbine_2"] = level.players[0].buildableturbine;
-						}
-
-					}
+					level.sq_progress["maxis"]["C_turbine_2"] = level.sq_progress["maxis"]["C_turbine_1"];
 				}
+			}
+			else if ( isdefined( level.sq_progress["maxis"]["C_turbine_2"] ) )
+			{
+				level.sq_progress["maxis"]["C_turbine_1"] = level.sq_progress["maxis"]["C_turbine_2"];
 			}
 
 			waittillframeend;
