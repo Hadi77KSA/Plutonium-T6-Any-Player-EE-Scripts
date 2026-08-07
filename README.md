@@ -127,6 +127,8 @@ To install, follow the steps in the **Individual Files** alternative installatio
 [buried_extra_maxis_solo_bells.gsc](https://github.com/Hadi77KSA/Plutonium-T6-Any-Player-EE-Extra-Scripts/releases/latest/download/buried_extra_maxis_solo_bells.gsc)
   - On the sharpshooter step on 3p, the players can choose the minimum number of targets to either be 61–65 or all targets on every attempt; where choosing the minimum to be 61–65 targets is done by shooting less than or exactly 65 targets, and choosing the minimum to be all targets is done by shooting more than 65 targets.  
 [buried_extra_sharpshooter_3p.gsc](https://github.com/Hadi77KSA/Plutonium-T6-Any-Player-EE-Extra-Scripts/releases/latest/download/buried_extra_sharpshooter_3p.gsc)
+- Origins Extra: on *Step 3: Rain Fire*, makes the button timeout 35 seconds, similar to BO3.  
+[origins_extra_rain_fire_35s.gsc](https://github.com/Hadi77KSA/Plutonium-T6-Any-Player-EE-Extra-Scripts/releases/latest/download/origins_extra_rain_fire_35s.gsc)
 
 ## FAQ
 ### Q: Do I/we need all of these mods to do all the EEs?
