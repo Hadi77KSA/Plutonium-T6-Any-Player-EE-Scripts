@@ -2,7 +2,7 @@
 The following scripts allow the main Easter Egg quests to be done with any number of players—whether it is solo (1 player), duo (2 players), trio (3 players), or even more than 4 players—while aiming to be as similar to the original Easter Eggs as possible.
 
 ## Installation
-1. [Download the latest release](https://github.com/Hadi77KSA/Plutonium-T6-Any-Player-EE-Scripts/releases/latest/download/release.zip).
+1. [Download the latest release](https://github.com/Hadi77KSA/Plutonium-T6-Any-Player-EE-Scripts/releases/latest).
 2. Extract the `zm_any_player_ee` folder from the ZIP file that was downloaded.
 3. Go to `%localappdata%\Plutonium\storage\t6` by pressing Win+R then pasting the mentioned path then pressing OK, and open the `mods` folder. If the `mods` folder does not exist, create it.
 
