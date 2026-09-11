@@ -33,6 +33,7 @@ onPlayerConnect()
 	{
 		level waittill( "connected", player );
 		player thread msg();
+		player = undefined;
 	}
 }
 
@@ -98,6 +99,8 @@ health_add()
 
 	if ( level.players.size <= currentValue )
 	{
+		currentValue = undefined;
+
 		for (;;)
 		{
 			if ( self.n_sq_energy <= 20 )
@@ -199,6 +202,8 @@ sq_bp_start_puzzle_lights()
 	for ( i = 0; i < a_button_structs.size; i++ )
 		a_tags[a_tags.size] = a_button_structs[i].script_string;
 
+	a_button_structs = undefined;
+	i = undefined;
 	a_tags = array_randomize( a_tags );
 
 	while ( !isdefined( level.t_start ) )
@@ -212,6 +217,7 @@ sq_bp_start_puzzle_lights()
 
 	if ( level.players.size <= currentValue )
 	{
+		currentValue = undefined;
 		level delay_notify( "sq_bp_timeout", 0.05 );
 		thread deleteTrigger();
 	}
@@ -304,6 +310,8 @@ ows_target_delete_timer()
 				break;
 		}
 	}
+
+	currentValue = undefined;
 
 	while ( zmb_sq_target_flip > 0 )
 	{
@@ -404,6 +412,8 @@ sq_metagame()
 	else
 		return;
 
+	n_metagame_machine_lights_on = undefined;
+	currentValue = undefined;
 	m_endgame_machine.activate_trig = spawn( "trigger_radius", m_endgame_machine.origin, 0, 128, 72 );
 	m_endgame_machine.activate_trig waittill( "trigger" );
 	m_endgame_machine.activate_trig delete();

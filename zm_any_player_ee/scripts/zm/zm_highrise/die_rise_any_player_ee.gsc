@@ -37,6 +37,7 @@ onPlayerConnect()
 	{
 		level waittill( "connected", player );
 		player thread msg();
+		player = undefined;
 	}
 }
 
@@ -286,6 +287,8 @@ sq_1()
 		players[i] thread onPlayerDisconnect( 0 );
 	}
 
+	players = undefined;
+	i = undefined;
 	wait_for_all_springpads_placed();
 	level.pts_ghoul = undefined;
 }
@@ -417,6 +420,9 @@ pts_watch_springpad_use()
 		{
 			self is_springpad_in_place( weapon );
 		}
+
+		weapon = undefined;
+		weapname = undefined;
 	}
 }
 
@@ -450,6 +456,7 @@ onPickUp()
 	{
 		level waittill( "zm_ball_picked_up", player );
 		thread pts_should_player_create_trigs( player );
+		player = undefined;
 	}
 }
 

@@ -17,6 +17,7 @@ onPlayerConnect()
 	{
 		level waittill( "connected", player );
 		player thread msg();
+		player = undefined;
 	}
 }
 
@@ -72,6 +73,7 @@ trigger_func()
 
 	for (;;)
 	{
+		player = undefined;
 		self waittill( "trigger", player );
 
 		if ( !is_player_valid( player ) )
@@ -81,10 +83,12 @@ trigger_func()
 
 		if ( isdefined( player.intermission ) && player.intermission || is_placeable_mine( current_weapon ) || is_equipment_that_blocks_purchase( current_weapon ) || current_weapon == "none" || player maps\mp\zombies\_zm_laststand::player_is_in_laststand() || player isthrowinggrenade() || player in_revive_trigger() || player isswitchingweapons() || player.is_drinking > 0 )
 		{
+			current_weapon = undefined;
 			wait 0.1;
 			continue;
 		}
 
+		current_weapon = undefined;
 		reward_one_inch_punch( player );
 		self setinvisibletoplayer( player );
 		wait 0.05;

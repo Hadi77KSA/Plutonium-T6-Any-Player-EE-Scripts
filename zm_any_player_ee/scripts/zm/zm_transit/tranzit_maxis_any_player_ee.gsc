@@ -24,6 +24,7 @@ onPlayerConnect()
 	{
 		level waittill( "connected", player );
 		player thread msg();
+		player = undefined;
 	}
 }
 
