@@ -66,9 +66,13 @@ spawn_navcomputer()
 		}
 	}
 
+	players = undefined;
+	i = undefined;
+
 	if ( !spawn_navcomputer )
 		return;
 
+	spawn_navcomputer = undefined;
 	get_players()[0] maps\mp\zombies\_zm_buildables::player_finish_buildable( level.sq_buildable.buildablezone );
 
 	if ( isdefined( level.sq_buildable ) && isdefined( level.sq_buildable.model ) )
@@ -129,6 +133,7 @@ num_player_valid( is_generator )
 		numplayers = level.pts_ghoul;
 	}
 
+	is_generator = undefined;
 	return int( min( numplayers, 4 ) );
 }
 
@@ -165,14 +170,20 @@ atd()
 				v_hidden = m_unlit.lit_icon.origin;
 				m_unlit.lit_icon.origin = m_unlit.origin;
 				m_unlit.origin = v_hidden;
+				m_unlit = undefined;
+				v_hidden = undefined;
 				a_puzzle_trigs[i] notify( "trigger", level.players[0] );
 				waittillframeend;
 				level.sq_atd_cur_drg = 4;
 			}
 		}
 
+		a_puzzle_trigs = undefined;
+		i = undefined;
+
 		if ( remove )
 		{
+			remove = undefined;
 			flag_clear( "sq_atd_drg_puzzle_1st_error" );
 		}
 	}
@@ -193,6 +204,8 @@ sq_atd_elevators()
 		wait 0.5;
 		CHECK_OVERRIDE( "any_player_ee_highrise_elevators", ELEVATORS_DEFAULT, currentValue );
 	}
+
+	currentValue = undefined;
 
 	for ( i = a_elevator_flags.size - 1; i >= 0; i-- )
 	{
@@ -231,6 +244,7 @@ sq_atd_drg_puzzle()
 			t_putdown notify( "delete" ); \
 		} \
 		\
+		t_putdown = undefined; \
 		pts_putdown_trigs_remove_for_spot( __s_lion_spot ); \
 	}
 
@@ -305,6 +319,8 @@ sq_2()
 		players[i] thread pts_watch_springpad_use();
 	}
 
+	players = undefined;
+	i = undefined;
 	thread onPickUp();
 }
 

@@ -384,7 +384,7 @@ sq_metagame_on_player_connect()
 {
 	for (;;)
 	{
-		if ( get_players().size != 4 )
+		if ( get_players().size != 4 || maps\mp\_utility::getDvarIntDefault( "any_player_ee_buried_metagame", METAGAME_DEFAULT ) < 4 )
 		{
 			thread sq_metagame();
 		}
