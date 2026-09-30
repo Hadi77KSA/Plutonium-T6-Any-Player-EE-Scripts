@@ -71,7 +71,7 @@ Requires the players to place Trample Steams only on the same amount of symbols 
 For less than 3p, wisp will no longer rely on zombies getting near it.
 
 ##### - Bells Step
-For less than 3p, time limit will be removed. Will only reset if it is failed.
+For less than 3p, the full order will be shown upon interacting with the grid and the time limit will be removed. Will only reset if it is failed.
 
 #### b) Richtofen Side
 ##### - Round Infinity A.K.A. the Time Bomb Step
@@ -107,7 +107,8 @@ Spawns stone tablets near the challenge boxes for players to grab the One Inch P
 | `any_player_ee_highrise_maxis_pts_ignore_has_ball` | (0-1) Ignore the existence of a ball on the Maxis Trample Steam(s) when creating ball place trigs. Default: 1. Vanilla: 0 |
 | `any_player_ee_highrise_rich_pts` | (0-4) Min number of required Trample Steams for Richtofen. Default: -1. Vanilla: 4 |
 | `any_player_ee_buried_maxis_ctw` | (0-18) Max number of players for which Maxis wisp health auto-regeneration will be in effect. Default: 2. Vanilla: 0 |
-| `any_player_ee_buried_maxis_ip` | (0-18) Max number of players for which Maxis bells time limit removal will be in effect. Default: 2. Vanilla: 0 |
+| `any_player_ee_buried_maxis_ip_show_order` | (0-18) Max number of players for which Maxis bells order showing will be in effect. Default: 2. Vanilla: 0 |
+| `any_player_ee_buried_maxis_ip_timeout` | (Min: 1) Amount of time for the Maxis bells timeout, in seconds. Use 0 to force no timeout. Default: -1. Vanilla: 10 |
 | `any_player_ee_buried_rich_tpo` | (0-18) Specific number of players required near the Guillotine to activate Richtofen round infinity. Default: -1. Vanilla: 4 |
 | `any_player_ee_buried_ows` | (0-84) Min number of required targets for sharpshooter. Default: -1. Vanilla: 84 |
 | `any_player_ee_buried_metagame` | (0-18) Max number of players whose completions will be checked for the Super Easter Egg. Default: 4. Vanilla: -1 |

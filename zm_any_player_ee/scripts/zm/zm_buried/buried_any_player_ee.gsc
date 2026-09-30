@@ -12,7 +12,8 @@
 	}
 
 #define MAXIS_CTW_DEFAULT 2
-#define MAXIS_IP_DEFAULT 2
+#define MAXIS_IP_SHOW_ORDER_DEFAULT 2
+#define MAXIS_IP_TIMEOUT_DEFAULT -1
 #define RICH_TPO_DEFAULT -1
 #define OWS_DEFAULT -1
 #define METAGAME_DEFAULT 4
@@ -212,28 +213,75 @@ sq_bp_start_puzzle_lights()
 	}
 
 	level.t_start waittill( "trigger" );
-	currentValue = MAXIS_IP_DEFAULT;
-	CHECK_OVERRIDE( "any_player_ee_buried_maxis_ip", MAXIS_IP_DEFAULT, currentValue );
+	level delay_notify( "sq_bp_timeout", 0.05 );
+	thread deleteTrigger();
+	currentValue = MAXIS_IP_SHOW_ORDER_DEFAULT;
+	CHECK_OVERRIDE( "any_player_ee_buried_maxis_ip_show_order", MAXIS_IP_SHOW_ORDER_DEFAULT, currentValue );
 
 	if ( level.players.size <= currentValue )
 	{
 		currentValue = undefined;
-		level delay_notify( "sq_bp_timeout", 0.05 );
-		thread deleteTrigger();
+
+		//flash lights yellow/off 4 times
+		for ( i = 1; i <= 8; i++ )
+		{
+			wait 0.4;
+			toggle = i % 2;
+
+			for ( j = a_tags.size - 1; j >= 0; j-- )
+			{
+				level setClientField( "buried_sq_bp_" + a_tags[j], toggle );
+			}
+
+			toggle = undefined;
+			j = undefined;
+		}
+
+		i = undefined;
+		wait 0.1;
+
+		//show order
+		for ( j = 0; j < a_tags.size; j++ )
+		{
+			wait 0.3; //pause before next light
+			level setClientField( "buried_sq_bp_" + a_tags[j], 1 ); //yellow
+			wait 0.7; //yellow light period
+			level setClientField( "buried_sq_bp_" + a_tags[j], 2 ); //green
+		}
+
+		j = undefined;
+		wait 0.1;
+
+		//flash lights off/yellow 3 times then off
+		for ( i = 0; i < 7; i++ )
+		{
+			wait 0.4;
+			toggle = i % 2;
+
+			for ( j = a_tags.size - 1; j >= 0; j-- )
+			{
+				level setClientField( "buried_sq_bp_" + a_tags[j], toggle );
+			}
+
+			toggle = undefined;
+			j = undefined;
+		}
+
+		i = undefined;
 	}
-	else
-	{
-		return;
-	}
+
+	currentValue = MAXIS_IP_TIMEOUT_DEFAULT;
 
 	foreach ( str_tag in a_tags )
 	{
 		wait_network_frame();
 		wait_network_frame();
-		level thread sq_bp_set_current_bulb( str_tag );
+		CHECK_OVERRIDE( "any_player_ee_buried_maxis_ip_timeout", MAXIS_IP_TIMEOUT_DEFAULT, currentValue );
+		level thread sq_bp_set_current_bulb( str_tag, currentValue );
 		level waittill( "sq_bp_correct_button" );
 	}
 
+	currentValue = undefined;
 	flag_set( "sq_ip_puzzle_complete" );
 	a_button_structs = getstructarray( "sq_bp_button", "targetname" );
 
@@ -261,7 +309,7 @@ deleteTrigger()
 	level.t_start delete();
 }
 
-sq_bp_set_current_bulb( str_tag )
+sq_bp_set_current_bulb( str_tag, currentValue )
 {
 	level endon( "sq_bp_correct_button" );
 	level endon( "sq_bp_wrong_button" );
@@ -272,6 +320,17 @@ sq_bp_set_current_bulb( str_tag )
 
 	level.m_sq_bp_active_light = sq_bp_light_on( str_tag, "yellow" );
 	level.str_sq_bp_active_light = str_tag;
+
+	if ( currentValue > 0 || currentValue != 0 && level.players.size > 2 )
+	{
+		if ( currentValue <= -1 )
+		{
+			currentValue = 10;
+		}
+
+		wait( currentValue );
+		level notify( "sq_bp_wrong_button" );
+	}
 }
 
 ows()
