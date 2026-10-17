@@ -93,7 +93,7 @@ Allows for the Super Easter Egg button to be accessible with any number of playe
 For more than 4 players, the mod will only check the player progress that is shown on the box.
 
 ### Origins
-Spawns stone tablets near the challenge boxes for players to grab the One Inch Punch from. This allows for matches of 5+ players to be able to obtain the One Inch Punch to complete *Step 6: Wield a Fist of Iron* of the Easter Egg.
+Makes the One Inch Punch reward claiming be per-player instead of per-character. This allows for matches of 5+ players to be able to obtain the One Inch Punch to complete *Step 6: Wield a Fist of Iron* of the Easter Egg.
 
 ### Configuration Options
 | Name | Description |

@@ -117,7 +117,8 @@ zm_any_player_ee\scripts\zm\zm_highrise\die_rise_any_player_ee.gsc
 - 0xEF681238 (1.0)
 
 zm_any_player_ee\scripts\zm\zm_tomb\origins_any_player_ee.gsc
-- 0xBF3A9DD8 (v2.5.0–current)
+- 0x117330F6 (v2.6.0–current)
+- 0xBF3A9DD8 (v2.5.0–v2.5.1)
 - 0xB1A14D14 (v2.4.1)
 - 0x7D4A51E7 (v2.0.0–v2.4.0)
 - 0x9B452D31 (1.5.1–v1.6.0)
