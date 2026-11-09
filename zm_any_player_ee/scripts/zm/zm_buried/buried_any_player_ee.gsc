@@ -384,11 +384,7 @@ sq_metagame_on_player_connect()
 {
 	for (;;)
 	{
-		if ( get_players().size != 4 || maps\mp\_utility::getDvarIntDefault( "any_player_ee_buried_metagame", METAGAME_DEFAULT ) < 4 )
-		{
-			thread sq_metagame();
-		}
-
+		thread sq_metagame();
 		level waittill( "sq_metagame_player_connected" );
 	}
 }
@@ -419,16 +415,15 @@ sq_metagame()
 	n_metagame_machine_lights_on = 0;
 	flag_wait( "start_zombie_round_logic" );
 	waittillframeend;
-
-	if ( level.n_metagame_machine_lights_on == 12 )
-	{
-		return;
-	}
-
 	players = get_players();
 	player_count = players.size;
 	currentValue = METAGAME_DEFAULT;
 	CHECK_OVERRIDE( "any_player_ee_buried_metagame", METAGAME_DEFAULT, currentValue );
+
+	if ( level.n_metagame_machine_lights_on == 12 && currentValue >= player_count )
+	{
+		return;
+	}
 
 	for ( n_player = player_count - 1; n_player >= 0; n_player-- )
 	{
@@ -461,7 +456,7 @@ sq_metagame()
 		}
 	}
 
-	if ( n_metagame_machine_lights_on == int( min( player_count, currentValue ) ) * 3 ) //changed to adapt to the number of players
+	if ( n_metagame_machine_lights_on == int( min( player_count, currentValue ) ) * 3 || n_metagame_machine_lights_on == 12 ) //changed to adapt to the number of players
 	{
 		if ( is_blue_on && is_orange_on )
 			return;
